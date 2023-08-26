@@ -6,7 +6,11 @@ export const En = {
   search: "Search",
   searchPlaceholder: "Search...",
   login: "Login",
-  signin: "Sign in",
+  signup: "Sign Up",
+  name: "Username",
+  email: "Email address",
+  psw: "Password",
+  register: "Create account",
 };
 export const Ru = {
   home: "Главная",
@@ -16,5 +20,9 @@ export const Ru = {
   search: "Поиск",
   searchPlaceholder: "Поиск...",
   login: "Войти",
-  signin: "Зарегистрироваться",
+  name: "Имя",
+  signup: "Регистрация",
+  email: "Электронная почта",
+  psw: "Пароль",
+  register: "Зарегистрироваться",
 };
