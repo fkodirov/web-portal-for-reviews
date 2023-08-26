@@ -1,0 +1,31 @@
+.card {
+  --bs-card-border-color: none;
+  max-width: 354px;
+}
+.card-top {
+  display: flex;
+  justify-content: space-between;
+}
+.card-body {
+  h6 {
+    position: relative;
+  }
+}
+.card-default img {
+  padding: 14px 14px 0;
+}
+.card-footer {
+  border-top: none;
+  background-color: transparent;
+}
+.badge-games {
+  background-color: darkblue;
+  position: absolute;
+  right: 0;
+}
+.card-rating {
+  justify-content: space-around;
+}
+.card-rating > * {
+  width: auto;
+}
