@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useTranslation } from "react-i18next";
+import { Context } from "../main";
 
 interface RegistrationProps {
   show: boolean;
@@ -10,16 +11,15 @@ interface RegistrationProps {
 }
 
 const Registration: React.FC<RegistrationProps> = ({ show, onClose }) => {
+  const { store } = useContext(Context);
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    store.registration(username, email, password);
   };
 
   return (
@@ -32,38 +32,32 @@ const Registration: React.FC<RegistrationProps> = ({ show, onClose }) => {
           <Form.Group className="form-floating mb-3">
             <Form.Control
               type="text"
-              id="floatingInput"
+              id="username"
               placeholder="Farkhod"
-              value={formData.username}
-              onChange={(e) =>
-                setFormData({ ...formData, username: e.target.value })
-              }
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
-            <Form.Label htmlFor="floatingInput">{t("name")}</Form.Label>
+            <Form.Label htmlFor="username">{t("name")}</Form.Label>
           </Form.Group>
           <Form.Group className="form-floating mb-3">
             <Form.Control
               type="email"
-              id="floatingInput"
+              id="email"
               placeholder="name@example.com"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <Form.Label htmlFor="floatingInput">{t("email")}</Form.Label>
+            <Form.Label htmlFor="email">{t("email")}</Form.Label>
           </Form.Group>
           <Form.Group className="form-floating mb-3">
             <Form.Control
               type="password"
-              id="floatingPassword"
+              id="password"
               placeholder="Password"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <Form.Label htmlFor="floatingPassword">{t("psw")}</Form.Label>
+            <Form.Label htmlFor="password">{t("psw")}</Form.Label>
           </Form.Group>
           <Button className="btn btn-danger w-100 py-2" type="submit">
             {t("register")}
