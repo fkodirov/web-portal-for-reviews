@@ -38,6 +38,7 @@ const App: FC = () => {
   }
   return (
     <>
+      <Header />
       <ProfilePage />
     </>
   );
