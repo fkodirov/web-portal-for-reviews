@@ -40,6 +40,7 @@ const App: FC = () => {
     <>
       <Header />
       <ProfilePage />
+      <Footer />
     </>
   );
 };

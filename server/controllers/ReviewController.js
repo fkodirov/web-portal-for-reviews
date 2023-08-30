@@ -28,7 +28,26 @@ class ReviewController {
       next(error);
     }
   }
-  async updateUsers(req, res, next) {
+  async addReview(req, res, next) {
+    try {
+      const { title, nameofart, category, tags, text, img, rating, userId } =
+        req.body;
+      await reviewService.addReview(
+        title,
+        nameofart,
+        category,
+        tags,
+        text,
+        img,
+        rating,
+        userId
+      );
+      res.json({ message: "Review added." });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async updateReview(req, res, next) {
     try {
       const { title, nameofart, category, tags, text, img, rating } = req.body;
       const reviewId = +req.params.id;

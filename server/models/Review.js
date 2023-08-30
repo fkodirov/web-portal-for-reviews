@@ -32,7 +32,7 @@ Review.init(
     },
     img: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     rating: {
       type: DataTypes.INTEGER.UNSIGNED,

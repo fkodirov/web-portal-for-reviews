@@ -1,13 +1,18 @@
 import React from "react";
-import UploadImage from "./UploadImage";
+
+import { observer } from "mobx-react-lite";
+// import UploadImage from "./UploadImage";
+// import ReviewList from "./ReviewList";
+import NewReview from "./NewReview";
 
 const ProfilePage: React.FC = () => {
   return (
     <div>
       <h2>User Profile</h2>
-      <UploadImage />
+      {/* <ReviewList /> */}
+      <NewReview />
     </div>
   );
 };
 
-export default ProfilePage;
+export default observer(ProfilePage);

@@ -71,17 +71,15 @@ const Dropzone: React.FC<DropzoneProps> = ({ onFileUpload, progress }) => {
     });
   };
   return (
-    <div className="d-flex justify-content-center align-items-center flex-column">
-      <div className="col-6">
-        <div {...getRootProps({ style })}>
-          <CloudUpload size={128}></CloudUpload>
-          <input {...getInputProps()} />
-          {filename ? (
-            <p>{filename}</p>
-          ) : (
-            <p>Drag 'n' drop some files here, or click to select files</p>
-          )}
-        </div>
+    <div className="d-flex justify-content-center flex-column">
+      <div {...getRootProps({ style })}>
+        <CloudUpload size={128}></CloudUpload>
+        <input {...getInputProps()} />
+        {filename ? (
+          <p>{filename}</p>
+        ) : (
+          <p>Drag 'n' drop some files here, or click to select files</p>
+        )}
       </div>
       <div className="col mt-3">
         {progress ? (
@@ -94,7 +92,7 @@ const Dropzone: React.FC<DropzoneProps> = ({ onFileUpload, progress }) => {
           </button>
         ) : (
           <button
-            className="btn btn-danger"
+            className="btn btn-primary"
             onClick={uploadImage}
             type="button"
           >

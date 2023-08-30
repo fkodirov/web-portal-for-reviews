@@ -16,6 +16,20 @@ class ReviewService {
       where: { id },
     });
   }
+  async addReview(title, nameofart, category, tags, text, img, rating, userId) {
+    const newReview = await reviewModel.create({
+      title,
+      nameofart,
+      category,
+      tags,
+      text,
+      img,
+      rating,
+      userId,
+    });
+    // newReview = { title, nameofart, category, tags, text, img, rating };
+    await newReview.save();
+  }
   async updateReview(id, title, nameofart, category, tags, text, img, rating) {
     const review = await userModel.findOne({
       where: { id },
@@ -25,4 +39,4 @@ class ReviewService {
   }
 }
 
-module.exports = new UserService();
+module.exports = new ReviewService();

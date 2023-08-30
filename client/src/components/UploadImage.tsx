@@ -8,9 +8,11 @@ import {
 import Dropzone from "./Dropzone";
 import React, { useState } from "react";
 
-const UploadImage: React.FC = () => {
+const UploadImage: React.FC<{
+  handleImageChange: (url: string) => void;
+  image: string;
+}> = ({ handleImageChange, image }) => {
   const [progress, setProgress] = useState(0);
-  const [imageUrl, setImageUrl] = useState("");
   const handleUpload = (file: File) => {
     setProgress(1);
     const storageRef = ref(storage, `files/${file.name}`);
@@ -19,7 +21,7 @@ const UploadImage: React.FC = () => {
         getDownloadURL(snapshot.ref)
           .then((downloadURL) => {
             console.log(downloadURL);
-            setImageUrl(downloadURL);
+            handleImageChange(downloadURL);
             setProgress(0);
           })
           .catch((error) => {
@@ -32,12 +34,12 @@ const UploadImage: React.FC = () => {
   };
 
   const handleDelete = () => {
-    if (imageUrl) {
-      const imageRef = ref(storage, imageUrl);
+    if (image) {
+      const imageRef = ref(storage, image);
       deleteObject(imageRef)
         .then(() => {
           console.log("File deleted successfully.");
-          setImageUrl("");
+          handleImageChange("");
         })
         .catch((error) => {
           console.error("Error deleting file:", error);
@@ -47,12 +49,10 @@ const UploadImage: React.FC = () => {
 
   return (
     <>
-      <Dropzone onFileUpload={handleUpload} progress={progress} />
-      {imageUrl && (
+      {image ? (
         <div className="d-flex justify-content-center align-items-center flex-column">
-          <div className="col-6">
-            <img src={imageUrl} alt="Review Image" width={200} height={150} />
-          </div>
+          <img src={image} alt="Review Image" width={350} height={225} />
+
           <div className="col mt-3">
             <button
               type="button"
@@ -63,6 +63,8 @@ const UploadImage: React.FC = () => {
             </button>
           </div>
         </div>
+      ) : (
+        <Dropzone onFileUpload={handleUpload} progress={progress} />
       )}
     </>
   );
