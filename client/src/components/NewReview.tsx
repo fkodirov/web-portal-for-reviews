@@ -5,6 +5,7 @@ import UploadImage from "./UploadImage";
 import { Context } from "../main";
 import { observer } from "mobx-react-lite";
 import ReviewService from "../services/ReviewService";
+import { Snackbar, Alert, Slide } from "@mui/material";
 
 const NewReview = () => {
   const { store } = useContext(Context);
@@ -15,15 +16,16 @@ const NewReview = () => {
   const [tags, setTags] = useState("");
   const [rating, setRating] = useState("");
   const [image, setImage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleImageChange = (url: string) => {
     setImage(url);
   };
 
   const handleSubmit = async () => {
-    // console.log("Отправленные данные:", formData);
     try {
-      await ReviewService.addReview(
+      const response = await ReviewService.addReview(
         title,
         nameofart,
         category,
@@ -33,7 +35,11 @@ const NewReview = () => {
         +rating,
         store.user.id
       );
+      if (response.status === 200) {
+        setSuccessMessage("Review successfully created!");
+      }
     } catch (e) {
+      setErrorMessage(String(e));
       console.log(e);
       throw e;
     }
@@ -143,6 +149,42 @@ const NewReview = () => {
             Publish Review
           </button>
         </div>
+        <Snackbar
+          open={!!successMessage}
+          autoHideDuration={2000}
+          onClose={() => setSuccessMessage("")}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          TransitionComponent={Slide}
+        >
+          <Alert
+            severity="success"
+            onClose={() => setSuccessMessage("")}
+            sx={{ width: "25%" }}
+          >
+            {successMessage}
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={!!errorMessage}
+          autoHideDuration={2000}
+          onClose={() => setErrorMessage("")}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          TransitionComponent={Slide}
+        >
+          <Alert
+            severity="error"
+            onClose={() => setErrorMessage("")}
+            sx={{ width: "25%" }}
+          >
+            {errorMessage}
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );
