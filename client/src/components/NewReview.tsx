@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, FormEvent } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import UploadImage from "./UploadImage";
@@ -23,7 +23,8 @@ const NewReview = () => {
     setImage(url);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       const response = await ReviewService.addReview(
         title,
@@ -47,10 +48,10 @@ const NewReview = () => {
 
   return (
     <div className="container mt-5">
-      <div className="row">
-        <h2>Add New Review</h2>
-        <div className="col-md-8">
-          <form>
+      <form onSubmit={handleSubmit}>
+        <div className="row">
+          <h2>Add New Review</h2>
+          <div className="col-md-8">
             <div className="mb-3">
               <label htmlFor="title" className="form-label">
                 Title
@@ -134,58 +135,54 @@ const NewReview = () => {
                 required
               />
             </div>
-          </form>
-        </div>
-        <div className="col-md-4 text-center">
-          <label className="form-label">Review Image</label>
-          <UploadImage handleImageChange={handleImageChange} image={image} />
-        </div>
-        <div className="mt-3 text-center">
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="btn btn-primary"
-          >
-            Publish Review
-          </button>
-        </div>
-        <Snackbar
-          open={!!successMessage}
-          autoHideDuration={2000}
-          onClose={() => setSuccessMessage("")}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          TransitionComponent={Slide}
-        >
-          <Alert
-            severity="success"
+          </div>
+          <div className="col-md-4 text-center">
+            <label className="form-label">Review Image</label>
+            <UploadImage handleImageChange={handleImageChange} image={image} />
+          </div>
+          <div className="mt-3 text-center">
+            <button type="submit" className="btn btn-primary">
+              Publish Review
+            </button>
+          </div>
+          <Snackbar
+            open={!!successMessage}
+            autoHideDuration={2000}
             onClose={() => setSuccessMessage("")}
-            sx={{ width: "25%" }}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            TransitionComponent={Slide}
           >
-            {successMessage}
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          open={!!errorMessage}
-          autoHideDuration={2000}
-          onClose={() => setErrorMessage("")}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          TransitionComponent={Slide}
-        >
-          <Alert
-            severity="error"
+            <Alert
+              severity="success"
+              onClose={() => setSuccessMessage("")}
+              sx={{ width: "25%" }}
+            >
+              {successMessage}
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            open={!!errorMessage}
+            autoHideDuration={2000}
             onClose={() => setErrorMessage("")}
-            sx={{ width: "25%" }}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            TransitionComponent={Slide}
           >
-            {errorMessage}
-          </Alert>
-        </Snackbar>
-      </div>
+            <Alert
+              severity="error"
+              onClose={() => setErrorMessage("")}
+              sx={{ width: "25%" }}
+            >
+              {errorMessage}
+            </Alert>
+          </Snackbar>
+        </div>
+      </form>
     </div>
   );
 };
