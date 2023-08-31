@@ -5,7 +5,10 @@ import { observer } from "mobx-react-lite";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Main from "./components/Main";
-import ProfilePage from "./components/ProfilePage";
+import UserReviews from "./components/UserReviews";
+import { Route, Routes } from "react-router-dom";
+import NewReview from "./components/NewReview";
+import EditReview from "./components/EditReview";
 
 const App: FC = () => {
   const { store } = useContext(Context);
@@ -39,7 +42,21 @@ const App: FC = () => {
   return (
     <>
       <Header />
-      <ProfilePage />
+      <Routes>
+        <Route path={`/`} element={<Main />} />
+        <Route
+          path={`/user/${store.user.id}/reviews`}
+          element={<UserReviews />}
+        />
+        <Route
+          path={`/user/${store.user.id}/new-review`}
+          element={<NewReview />}
+        />
+        <Route
+          path={`/user/${store.user.id}/reviews/:id/edit`}
+          element={<EditReview />}
+        />
+      </Routes>
       <Footer />
     </>
   );

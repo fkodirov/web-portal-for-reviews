@@ -11,8 +11,10 @@ import {
 } from "@mui/x-data-grid";
 import ReviewService from "../services/ReviewService";
 import { IReview } from "../models/IReview";
+import { useNavigate } from "react-router-dom";
 
 const ReviewList = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     getReviews();
   }, []);
@@ -31,6 +33,7 @@ const ReviewList = () => {
   };
   const handleEditClick = (id: GridRowId) => () => {
     // setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+    navigate(`${id}/edit`);
   };
 
   const handleSaveClick = (id: GridRowId) => () => {

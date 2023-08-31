@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import Registration from "./Registration";
 import Login from "./Login";
+import { Context } from "../main";
+import { useNavigate } from "react-router-dom";
 const Header: React.FC = () => {
+  const { store } = useContext(Context);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
@@ -51,18 +56,31 @@ const Header: React.FC = () => {
                   </a>
                 </li>
               </ul>
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link" onClick={() => setShowLogin(true)}>
-                    {t("login")}
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" onClick={() => setShowSignUp(true)}>
-                    {t("signup")}
-                  </a>
-                </li>
-              </ul>
+              {store.user.id ? (
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      onClick={() => navigate(`/user/${store.user.id}/reviews`)}
+                    >
+                      My Reviews
+                    </a>
+                  </li>
+                </ul>
+              ) : (
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li className="nav-item">
+                    <a className="nav-link" onClick={() => setShowLogin(true)}>
+                      {t("login")}
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" onClick={() => setShowSignUp(true)}>
+                      {t("signup")}
+                    </a>
+                  </li>
+                </ul>
+              )}
               <form className="d-flex me-2">
                 <input
                   className="form-control me-2"
