@@ -1,5 +1,6 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { Context } from "../main";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
@@ -16,10 +17,11 @@ import { storage } from "../firebase";
 import { ref, deleteObject } from "firebase/storage";
 
 const ReviewList = () => {
+  const { store } = useContext(Context);
   const navigate = useNavigate();
   useEffect(() => {
     getReviews();
-  }, []);
+  }, [store.isSaving]);
 
   const [reviews, setReviews] = React.useState<IReview[]>([]);
 
@@ -52,7 +54,7 @@ const ReviewList = () => {
       console.log(e);
     }
     const imgUrl = reviews.filter((row) => row.id == id)[0].img;
-    handleDeleteImage(imgUrl);
+    if (imgUrl) handleDeleteImage(imgUrl);
     setReviews(reviews.filter((row) => row.id !== id));
   };
 
@@ -106,6 +108,14 @@ const ReviewList = () => {
       flex: 0.7,
       editable: false,
       type: "number",
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      minWidth: 100,
+      flex: 1,
+      editable: false,
+      type: "string",
     },
     {
       field: "actions",

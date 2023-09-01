@@ -1,4 +1,4 @@
-import { useState, useContext, FormEvent } from "react";
+import { useState, useContext, FormEvent, useEffect, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import UploadImage from "./UploadImage";
@@ -20,14 +20,61 @@ const NewReview = () => {
   const [image, setImage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const titleRef = useRef("");
+  const nameofartRef = useRef("");
+  const categoryRef = useRef("");
+  const textRef = useRef("");
+  const tagsRef = useRef("");
+  const ratingRef = useRef("");
+  const imageRef = useRef("");
+  const isPublished = useRef(false);
 
+  useEffect(() => {
+    return () => {
+      const fieldsToCheck = [
+        titleRef.current,
+        nameofartRef.current,
+        categoryRef.current,
+        textRef.current,
+        tagsRef.current,
+        ratingRef.current,
+      ];
+
+      if (!isPublished.current && fieldsToCheck.some((field) => field !== "")) {
+        store.setSaving(true);
+        handleDraft();
+      }
+    };
+  }, []);
+
+  const handleDraft = async (status: "draft" | "published" = "draft") => {
+    try {
+      await ReviewService.addReview(
+        titleRef.current,
+        nameofartRef.current,
+        categoryRef.current,
+        tagsRef.current,
+        textRef.current,
+        imageRef.current,
+        +ratingRef.current,
+        status,
+        store.user.id
+      );
+      store.setSaving(false);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  };
   const handleImageChange = (url: string) => {
     setImage(url);
+    imageRef.current = url;
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
+      const status = "published";
       const response = await ReviewService.addReview(
         title,
         nameofart,
@@ -36,10 +83,12 @@ const NewReview = () => {
         text,
         image,
         +rating,
+        status,
         store.user.id
       );
       if (response.status === 200) {
         setSuccessMessage("Review successfully created!");
+        isPublished.current = true;
         setTimeout(() => {
           navigate(`/user/${store.user.id}/reviews`);
         }, 2500);
@@ -67,7 +116,11 @@ const NewReview = () => {
                 id="title"
                 name="title"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setTitle(value);
+                  titleRef.current = value;
+                }}
                 required
               />
             </div>
@@ -77,7 +130,10 @@ const NewReview = () => {
               </label>
               <ReactQuill
                 value={text}
-                onChange={(value) => setText(value)}
+                onChange={(value) => {
+                  setText(value);
+                  textRef.current = value;
+                }}
                 modules={quillModules}
                 className="min-vh-20"
               />
@@ -92,7 +148,11 @@ const NewReview = () => {
                 id="nameofart"
                 name="nameofart"
                 value={nameofart}
-                onChange={(e) => setNameofart(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setNameofart(value);
+                  nameofartRef.current = value;
+                }}
                 required
               />
             </div>
@@ -106,7 +166,11 @@ const NewReview = () => {
                 id="category"
                 name="category"
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setCategory(value);
+                  categoryRef.current = value;
+                }}
                 required
               />
             </div>
@@ -120,7 +184,11 @@ const NewReview = () => {
                 id="tags"
                 name="tags"
                 value={tags}
-                onChange={(e) => setTags(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setTags(value);
+                  tagsRef.current = value;
+                }}
                 required
               />
             </div>
@@ -136,7 +204,11 @@ const NewReview = () => {
                 min={0}
                 max={10}
                 value={rating}
-                onChange={(e) => setRating(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setRating(value);
+                  ratingRef.current = value;
+                }}
                 required
               />
             </div>

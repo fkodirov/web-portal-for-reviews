@@ -9,7 +9,7 @@ export default class Store {
   user = {} as IUser;
   isAuth = false;
   isLoading = true;
-
+  isSaving = false;
   constructor() {
     makeAutoObservable(this);
   }
@@ -24,6 +24,9 @@ export default class Store {
 
   setLoading(bool: boolean) {
     this.isLoading = bool;
+  }
+  setSaving(bool: boolean) {
+    this.isSaving = bool;
   }
 
   async login(email: string, password: string) {

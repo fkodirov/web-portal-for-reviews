@@ -16,7 +16,17 @@ class ReviewService {
       where: { id },
     });
   }
-  async addReview(title, nameofart, category, tags, text, img, rating, userId) {
+  async addReview(
+    title,
+    nameofart,
+    category,
+    tags,
+    text,
+    img,
+    rating,
+    status,
+    userId
+  ) {
     const newReview = await reviewModel.create({
       title,
       nameofart,
@@ -25,11 +35,22 @@ class ReviewService {
       text,
       img,
       rating,
+      status,
       userId,
     });
     await newReview.save();
   }
-  async updateReview(id, title, nameofart, category, tags, text, img, rating) {
+  async updateReview(
+    id,
+    title,
+    nameofart,
+    category,
+    tags,
+    text,
+    img,
+    rating,
+    status
+  ) {
     const review = await reviewModel.findOne({
       where: { id },
     });
@@ -40,6 +61,7 @@ class ReviewService {
     review.text = text;
     review.img = img;
     review.rating = rating;
+    review.status = status;
     await review.save();
   }
   async deleteImage(id) {

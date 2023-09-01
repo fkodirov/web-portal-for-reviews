@@ -38,6 +38,10 @@ Review.init(
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
+    status: {
+      type: DataTypes.ENUM("published", "draft"),
+      defaultValue: "draft",
+    },
     userId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,

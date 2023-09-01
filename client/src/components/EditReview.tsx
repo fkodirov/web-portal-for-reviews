@@ -55,6 +55,7 @@ const EditReview = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
+      const status = "published";
       const response = await ReviewService.updateReview(
         reviewId,
         title,
@@ -63,7 +64,8 @@ const EditReview = () => {
         tags,
         text,
         image,
-        +rating
+        +rating,
+        status
       );
       if (response.status === 200) {
         setSuccessMessage("Review successfully updated!");

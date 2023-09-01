@@ -30,8 +30,17 @@ class ReviewController {
   }
   async addReview(req, res, next) {
     try {
-      const { title, nameofart, category, tags, text, img, rating, userId } =
-        req.body;
+      const {
+        title,
+        nameofart,
+        category,
+        tags,
+        text,
+        img,
+        rating,
+        status,
+        userId,
+      } = req.body;
       await reviewService.addReview(
         title,
         nameofart,
@@ -40,6 +49,7 @@ class ReviewController {
         text,
         img,
         rating,
+        status,
         userId
       );
       res.json({ message: "Review added." });
@@ -49,7 +59,8 @@ class ReviewController {
   }
   async updateReview(req, res, next) {
     try {
-      const { title, nameofart, category, tags, text, img, rating } = req.body;
+      const { title, nameofart, category, tags, text, img, rating, status } =
+        req.body;
       const reviewId = +req.params.id;
       await reviewService.updateReview(
         reviewId,
@@ -59,7 +70,8 @@ class ReviewController {
         tags,
         text,
         img,
-        rating
+        rating,
+        status
       );
       res.json({ message: "Review updated." });
     } catch (error) {
