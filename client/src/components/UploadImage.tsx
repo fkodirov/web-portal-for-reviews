@@ -7,11 +7,13 @@ import {
 } from "firebase/storage";
 import Dropzone from "./Dropzone";
 import React, { useState } from "react";
+import ReviewService from "../services/ReviewService";
 
 const UploadImage: React.FC<{
   handleImageChange: (url: string) => void;
   image: string;
-}> = ({ handleImageChange, image }) => {
+  reviewId?: number;
+}> = ({ handleImageChange, image, reviewId }) => {
   const [progress, setProgress] = useState(0);
   const handleUpload = (file: File) => {
     setProgress(1);
@@ -33,8 +35,16 @@ const UploadImage: React.FC<{
       });
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (image) {
+      if (reviewId) {
+        try {
+          console.log(reviewId);
+          await ReviewService.deleteImage(reviewId);
+        } catch (e) {
+          console.log(e);
+        }
+      }
       const imageRef = ref(storage, image);
       deleteObject(imageRef)
         .then(() => {

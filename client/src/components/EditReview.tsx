@@ -1,4 +1,5 @@
-import { useState, useContext, FormEvent } from "react";
+import { useState, useContext, FormEvent, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import UploadImage from "./UploadImage";
@@ -8,7 +9,13 @@ import ReviewService from "../services/ReviewService";
 import { Snackbar, Alert, Slide } from "@mui/material";
 
 const EditReview = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    getReview();
+  }, []);
+
   const { store } = useContext(Context);
+  const [reviewId, setReviewId] = useState(0);
   const [title, setTitle] = useState("");
   const [nameofart, setNameofart] = useState("");
   const [category, setCategory] = useState("");
@@ -19,6 +26,28 @@ const EditReview = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const getReview = async () => {
+    const currentPath = window.location.pathname;
+    const pathParts = currentPath.split("/");
+    const reviewsIndex = pathParts.indexOf("reviews");
+    const id = +pathParts[reviewsIndex + 1];
+    setReviewId(id);
+
+    try {
+      const response = await ReviewService.fetchReview(id);
+      const data = response.data;
+      setTitle(data.title);
+      setNameofart(data.nameofart);
+      setCategory(data.category);
+      setText(data.text);
+      setTags(data.tags);
+      setRating(String(data.rating));
+      setImage(data.img);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const handleImageChange = (url: string) => {
     setImage(url);
   };
@@ -26,18 +55,21 @@ const EditReview = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await ReviewService.addReview(
+      const response = await ReviewService.updateReview(
+        reviewId,
         title,
         nameofart,
         category,
         tags,
         text,
         image,
-        +rating,
-        store.user.id
+        +rating
       );
       if (response.status === 200) {
-        setSuccessMessage("Review successfully created!");
+        setSuccessMessage("Review successfully updated!");
+        setTimeout(() => {
+          navigate(`/user/${store.user.id}/reviews`);
+        }, 2500);
       }
     } catch (e) {
       setErrorMessage(String(e));
@@ -138,7 +170,11 @@ const EditReview = () => {
           </div>
           <div className="col-md-4 text-center">
             <label className="form-label">Review Image</label>
-            <UploadImage handleImageChange={handleImageChange} image={image} />
+            <UploadImage
+              handleImageChange={handleImageChange}
+              image={image}
+              reviewId={reviewId}
+            />
           </div>
           <div className="mt-3 text-center">
             <button type="submit" className="btn btn-primary">

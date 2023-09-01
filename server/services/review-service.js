@@ -31,10 +31,23 @@ class ReviewService {
     await newReview.save();
   }
   async updateReview(id, title, nameofart, category, tags, text, img, rating) {
-    const review = await userModel.findOne({
+    const review = await reviewModel.findOne({
       where: { id },
     });
-    review = { title, nameofart, category, tags, text, img, rating };
+    review.title = title;
+    review.nameofart = nameofart;
+    review.category = category;
+    review.tags = tags;
+    review.text = text;
+    review.img = img;
+    review.rating = rating;
+    await review.save();
+  }
+  async deleteImage(id) {
+    const review = await reviewModel.findOne({
+      where: { id },
+    });
+    review.img = null;
     await review.save();
   }
 }

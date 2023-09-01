@@ -8,7 +8,7 @@ export default class UserService {
     return api.get<IReview[]>("/reviews");
   }
   static fetchReview(id: number): Promise<AxiosResponse<IReview>> {
-    return api.get<IReview>(`/review/${id}`);
+    return api.get<IReview>(`/reviews/${id}`);
   }
   static addReview(
     title: string,
@@ -41,7 +41,7 @@ export default class UserService {
     img: string,
     rating: number
   ): Promise<AxiosResponse<UpdateResponse>> {
-    return api.put<UpdateResponse>(`/review/${id}`, {
+    return api.put<UpdateResponse>(`/reviews/${id}`, {
       title,
       nameofart,
       category,
@@ -50,6 +50,9 @@ export default class UserService {
       img,
       rating,
     });
+  }
+  static deleteImage(id: number): Promise<AxiosResponse<UpdateResponse>> {
+    return api.put<UpdateResponse>(`/image/${id}`);
   }
   static deleteReview(id: number): Promise<AxiosResponse<UpdateResponse>> {
     return api.delete<UpdateResponse>(`/review/${id}`);

@@ -1,10 +1,10 @@
 export interface IReview {
   id: number;
-  title?: string;
+  title: string;
   nameofart: string;
-  category?: string;
-  tags?: string;
-  text?: string;
-  img?: string;
-  rating?: number;
+  category: string;
+  tags: string;
+  text: string;
+  img: string;
+  rating: number;
 }

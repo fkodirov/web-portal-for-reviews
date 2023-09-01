@@ -11,8 +11,9 @@ router.get("/refresh", userController.refresh);
 router.get("/users", authMiddleware, userController.getUsers);
 router.post("/review", authMiddleware, ReviewController.addReview);
 router.get("/reviews", authMiddleware, ReviewController.getReviews);
-// router.get("/reviews/:id", authMiddleware, userController.getUser);
+router.put("/reviews/:id", authMiddleware, ReviewController.updateReview);
+router.get("/reviews/:id", authMiddleware, ReviewController.getReview);
+router.put("/image/:id", authMiddleware, ReviewController.deleteImage);
 // router.delete("/reviews/:id", authMiddleware, userController.deleteUsers);
-// router.put("/reviews/:id", authMiddleware, userController.updateUsers);
 
 module.exports = router;

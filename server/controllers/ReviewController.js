@@ -66,6 +66,15 @@ class ReviewController {
       next(error);
     }
   }
+  async deleteImage(req, res, next) {
+    try {
+      const reviewId = +req.params.id;
+      await reviewService.deleteImage(reviewId);
+      res.json({ message: "Image deleted." });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new ReviewController();
