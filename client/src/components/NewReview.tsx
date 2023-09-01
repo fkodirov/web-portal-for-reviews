@@ -6,8 +6,10 @@ import { Context } from "../main";
 import { observer } from "mobx-react-lite";
 import ReviewService from "../services/ReviewService";
 import { Snackbar, Alert, Slide } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const NewReview = () => {
+  const navigate = useNavigate();
   const { store } = useContext(Context);
   const [title, setTitle] = useState("");
   const [nameofart, setNameofart] = useState("");
@@ -38,6 +40,9 @@ const NewReview = () => {
       );
       if (response.status === 200) {
         setSuccessMessage("Review successfully created!");
+        setTimeout(() => {
+          navigate(`/user/${store.user.id}/reviews`);
+        }, 2500);
       }
     } catch (e) {
       setErrorMessage(String(e));

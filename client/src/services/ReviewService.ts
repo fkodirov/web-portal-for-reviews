@@ -55,6 +55,6 @@ export default class UserService {
     return api.put<UpdateResponse>(`/image/${id}`);
   }
   static deleteReview(id: number): Promise<AxiosResponse<UpdateResponse>> {
-    return api.delete<UpdateResponse>(`/review/${id}`);
+    return api.delete<UpdateResponse>(`/reviews/${id}`);
   }
 }

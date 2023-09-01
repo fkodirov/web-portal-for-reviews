@@ -14,6 +14,6 @@ router.get("/reviews", authMiddleware, ReviewController.getReviews);
 router.put("/reviews/:id", authMiddleware, ReviewController.updateReview);
 router.get("/reviews/:id", authMiddleware, ReviewController.getReview);
 router.put("/image/:id", authMiddleware, ReviewController.deleteImage);
-// router.delete("/reviews/:id", authMiddleware, userController.deleteUsers);
+router.delete("/reviews/:id", authMiddleware, ReviewController.deleteReview);
 
 module.exports = router;

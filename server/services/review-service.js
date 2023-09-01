@@ -27,7 +27,6 @@ class ReviewService {
       rating,
       userId,
     });
-    // newReview = { title, nameofart, category, tags, text, img, rating };
     await newReview.save();
   }
   async updateReview(id, title, nameofart, category, tags, text, img, rating) {

@@ -12,6 +12,8 @@ import {
 import ReviewService from "../services/ReviewService";
 import { IReview } from "../models/IReview";
 import { useNavigate } from "react-router-dom";
+import { storage } from "../firebase";
+import { ref, deleteObject } from "firebase/storage";
 
 const ReviewList = () => {
   const navigate = useNavigate();
@@ -19,28 +21,38 @@ const ReviewList = () => {
     getReviews();
   }, []);
 
-  // const [rows, setRows] = React.useState(initialRows);
   const [reviews, setReviews] = React.useState<IReview[]>([]);
 
   const getReviews = async () => {
     try {
       const response = await ReviewService.fetchReviews();
       setReviews(response.data);
-      console.log(response.data);
     } catch (e) {
       console.log(e);
     }
   };
   const handleEditClick = (id: GridRowId) => () => {
-    // setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
     navigate(`${id}/edit`);
   };
 
-  const handleSaveClick = (id: GridRowId) => () => {
-    // setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  const handleDeleteImage = (image: string) => {
+    const imageRef = ref(storage, image);
+    deleteObject(imageRef)
+      .then(() => {
+        console.log("File deleted successfully.");
+      })
+      .catch((error) => {
+        console.error("Error deleting file:", error);
+      });
   };
-
-  const handleDeleteClick = (id: GridRowId) => () => {
+  const handleDeleteClick = (id: GridRowId) => async () => {
+    try {
+      await ReviewService.deleteReview(+id);
+    } catch (e) {
+      console.log(e);
+    }
+    const imgUrl = reviews.filter((row) => row.id == id)[0].img;
+    handleDeleteImage(imgUrl);
     setReviews(reviews.filter((row) => row.id !== id));
   };
 
