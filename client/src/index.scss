@@ -37,3 +37,35 @@
 .ql-container {
   height: auto !important;
 }
+
+blockquote {
+  font-style: italic;
+  border-left: 4px solid #ccc;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding-left: 16px;
+}
+
+._toolbarToggleItem_ykyo3_181,
+._toolbarButton_ykyo3_210,
+._toolbarButtonSelectTrigger_ykyo3_266 {
+  svg {
+    width: 20px;
+  }
+}
+[class^="_rootContentEditableWrapper"] {
+  border: 1px solid #ccc;
+}
+[class^="_toolbarRoot"] {
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 0;
+}
+[class^="_contentEditable"] {
+  height: 100% !important;
+  min-height: 250px;
+}
+.cm-content {
+  height: 100% !important;
+  min-height: 218px;
+}

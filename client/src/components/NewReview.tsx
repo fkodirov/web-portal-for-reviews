@@ -1,12 +1,11 @@
 import { useState, useContext, FormEvent, useEffect, useRef } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import UploadImage from "./UploadImage";
 import { Context } from "../main";
 import { observer } from "mobx-react-lite";
 import ReviewService from "../services/ReviewService";
 import { Snackbar, Alert, Slide } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import MdxEditor from "./MdxEditor";
 
 const NewReview = () => {
   const navigate = useNavigate();
@@ -28,6 +27,7 @@ const NewReview = () => {
   const ratingRef = useRef("");
   const imageRef = useRef("");
   const isPublished = useRef(false);
+  const btnClick = useRef(false);
 
   useEffect(() => {
     return () => {
@@ -73,30 +73,36 @@ const NewReview = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    try {
-      const status = "published";
-      const response = await ReviewService.addReview(
-        title,
-        nameofart,
-        category,
-        tags,
-        text,
-        image,
-        +rating,
-        status,
-        store.user.id
-      );
-      if (response.status === 200) {
-        setSuccessMessage("Review successfully created!");
-        isPublished.current = true;
-        setTimeout(() => {
-          navigate(`/user/${store.user.id}/reviews`);
-        }, 2500);
+    console.log("Lick");
+    if (e.target instanceof HTMLElement) {
+      // console.log(e.target);
+      if (btnClick.current) {
+        try {
+          const status = "published";
+          const response = await ReviewService.addReview(
+            title,
+            nameofart,
+            category,
+            tags,
+            text,
+            image,
+            +rating,
+            status,
+            store.user.id
+          );
+          if (response.status === 200) {
+            setSuccessMessage("Review successfully created!");
+            isPublished.current = true;
+            setTimeout(() => {
+              navigate(`/user/${store.user.id}/reviews`);
+            }, 2500);
+          }
+        } catch (e) {
+          setErrorMessage(String(e));
+          console.log(e);
+          throw e;
+        }
       }
-    } catch (e) {
-      setErrorMessage(String(e));
-      console.log(e);
-      throw e;
     }
   };
 
@@ -128,14 +134,11 @@ const NewReview = () => {
               <label htmlFor="text" className="form-label">
                 Text
               </label>
-              <ReactQuill
-                value={text}
-                onChange={(value) => {
-                  setText(value);
-                  textRef.current = value;
-                }}
-                modules={quillModules}
-                className="min-vh-20"
+              <MdxEditor
+                text={text}
+                setText={setText}
+                textRef={textRef}
+                btnClick={btnClick}
               />
             </div>
             <div className="mb-3">
@@ -218,7 +221,11 @@ const NewReview = () => {
             <UploadImage handleImageChange={handleImageChange} image={image} />
           </div>
           <div className="mt-3 text-center">
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={() => (btnClick.current = true)}
+            >
               Publish Review
             </button>
           </div>
@@ -262,21 +269,6 @@ const NewReview = () => {
       </form>
     </div>
   );
-};
-
-const quillModules = {
-  toolbar: [
-    [{ font: [] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    ["bold", "italic", "underline", "strike"],
-    [{ align: [] }],
-    [{ color: [] }, { background: [] }],
-    [{ script: "sub" }, { script: "super" }],
-    ["blockquote", "code-block"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    ["link", "image", "video"],
-    ["clean"],
-  ],
 };
 
 export default observer(NewReview);

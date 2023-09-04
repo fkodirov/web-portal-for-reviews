@@ -1,12 +1,13 @@
 import { useState, useContext, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+// import ReactQuill from "react-quill";
+// import "react-quill/dist/quill.snow.css";
 import UploadImage from "./UploadImage";
 import { Context } from "../main";
 import { observer } from "mobx-react-lite";
 import ReviewService from "../services/ReviewService";
 import { Snackbar, Alert, Slide } from "@mui/material";
+import MdxEditor from "./MdxEditor";
 
 const EditReview = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const EditReview = () => {
   const [image, setImage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isMdxVisible, setIsMdxVisible] = useState(false);
 
   const getReview = async () => {
     const currentPath = window.location.pathname;
@@ -43,6 +45,7 @@ const EditReview = () => {
       setTags(data.tags);
       setRating(String(data.rating));
       setImage(data.img);
+      setIsMdxVisible(true);
     } catch (e) {
       console.log(e);
     }
@@ -104,12 +107,13 @@ const EditReview = () => {
               <label htmlFor="text" className="form-label">
                 Text
               </label>
-              <ReactQuill
+              {/* <ReactQuill
                 value={text}
                 onChange={(value) => setText(value)}
                 modules={quillModules}
                 className="min-vh-20"
-              />
+              /> */}
+              {isMdxVisible && <MdxEditor text={text} setText={setText} />}
             </div>
             <div className="mb-3">
               <label htmlFor="nameofart" className="form-label">
@@ -223,21 +227,6 @@ const EditReview = () => {
       </form>
     </div>
   );
-};
-
-const quillModules = {
-  toolbar: [
-    [{ font: [] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    ["bold", "italic", "underline", "strike"],
-    [{ align: [] }],
-    [{ color: [] }, { background: [] }],
-    [{ script: "sub" }, { script: "super" }],
-    ["blockquote", "code-block"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    ["link", "image", "video"],
-    ["clean"],
-  ],
 };
 
 export default observer(EditReview);

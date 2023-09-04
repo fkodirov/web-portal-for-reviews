@@ -15,6 +15,7 @@ import { IReview } from "../models/IReview";
 import { useNavigate } from "react-router-dom";
 import { storage } from "../firebase";
 import { ref, deleteObject } from "firebase/storage";
+import removeMd from "remove-markdown";
 
 const ReviewList = () => {
   const { store } = useContext(Context);
@@ -75,7 +76,7 @@ const ReviewList = () => {
       align: "left",
       headerAlign: "left",
       editable: false,
-      valueGetter: (params) => params.value.replace(/(<([^>]+)>)/gi, ""),
+      valueGetter: (params) => removeMd(params.value),
     },
     {
       field: "nameofart",
