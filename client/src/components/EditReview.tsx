@@ -1,7 +1,5 @@
 import { useState, useContext, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import ReactQuill from "react-quill";
-// import "react-quill/dist/quill.snow.css";
 import UploadImage from "./UploadImage";
 import { Context } from "../main";
 import { observer } from "mobx-react-lite";
@@ -107,12 +105,6 @@ const EditReview = () => {
               <label htmlFor="text" className="form-label">
                 Text
               </label>
-              {/* <ReactQuill
-                value={text}
-                onChange={(value) => setText(value)}
-                modules={quillModules}
-                className="min-vh-20"
-              /> */}
               {isMdxVisible && <MdxEditor text={text} setText={setText} />}
             </div>
             <div className="mb-3">

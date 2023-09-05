@@ -9,6 +9,7 @@ import UserReviews from "./components/UserReviews";
 import { Route, Routes } from "react-router-dom";
 import NewReview from "./components/NewReview";
 import EditReview from "./components/EditReview";
+import Review from "./components/Review";
 
 const App: FC = () => {
   const { store } = useContext(Context);
@@ -56,6 +57,7 @@ const App: FC = () => {
           path={`/user/${store.user.id}/reviews/:id/edit`}
           element={<EditReview />}
         />
+        <Route path={`/reviews/:id/`} element={<Review />} />
       </Routes>
       <Footer />
     </>
