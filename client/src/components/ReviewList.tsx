@@ -3,6 +3,7 @@ import { useEffect, useContext } from "react";
 import { Context } from "../main";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
+import PreviewIcon from "@mui/icons-material/Preview";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import {
   DataGrid,
@@ -38,6 +39,10 @@ const ReviewList = () => {
     navigate(`${id}/edit`);
   };
 
+  const handlePreviewClick = (id: GridRowId) => () => {
+    navigate(`${id}/preview`);
+  };
+
   const handleDeleteImage = (image: string) => {
     const imageRef = ref(storage, image);
     deleteObject(imageRef)
@@ -48,6 +53,7 @@ const ReviewList = () => {
         console.error("Error deleting file:", error);
       });
   };
+
   const handleDeleteClick = (id: GridRowId) => async () => {
     try {
       await ReviewService.deleteReview(+id);
@@ -133,12 +139,22 @@ const ReviewList = () => {
             className="textPrimary"
             onClick={handleEditClick(id)}
             color="inherit"
+            title="Edit"
+          />,
+          <GridActionsCellItem
+            icon={<PreviewIcon />}
+            label="Preview"
+            className="textPrimary"
+            onClick={handlePreviewClick(id)}
+            color="inherit"
+            title="Preview"
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
+            title="Delete"
           />,
         ];
       },

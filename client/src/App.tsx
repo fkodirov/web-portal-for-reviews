@@ -57,6 +57,10 @@ const App: FC = () => {
           path={`/user/${store.user.id}/reviews/:id/edit`}
           element={<EditReview />}
         />
+        <Route
+          path={`/user/${store.user.id}/reviews/:id/preview`}
+          element={<Review />}
+        />
         <Route path={`/reviews/:id/`} element={<Review />} />
       </Routes>
       <Footer />
