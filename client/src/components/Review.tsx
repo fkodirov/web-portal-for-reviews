@@ -10,20 +10,25 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Stack from "@mui/material/Stack";
 import { Snackbar, Slide, Alert } from "@mui/material";
+import LikeService from "../services/LikeService";
 
 const Review: React.FC = () => {
+  const currentPath = window.location.pathname;
+  const pathParts = currentPath.split("/");
+  const reviewsIndex = pathParts.indexOf("reviews");
+  const id = +pathParts[reviewsIndex + 1];
   const { store } = useContext(Context);
   const [data, setData] = useState<IReview>(Object);
+  const [isLiked, setIsLiked] = useState(0);
   const [isPreview, setIsPreview] = useState(false);
   const [warningMessage, setWarningMessage] = useState(false);
   useEffect(() => {
     getReview();
   }, []);
+  useEffect(() => {
+    setIsLiked(store.reviewLike.includes(id) ? 1 : 0);
+  }, [store.reviewLike]);
   const getReview = async () => {
-    const currentPath = window.location.pathname;
-    const pathParts = currentPath.split("/");
-    const reviewsIndex = pathParts.indexOf("reviews");
-    const id = +pathParts[reviewsIndex + 1];
     if (currentPath.includes("preview")) setIsPreview(true);
 
     try {
@@ -31,6 +36,30 @@ const Review: React.FC = () => {
       setData(response.data);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const like = async (value: number | null) => {
+    if (isPreview) {
+      setWarningMessage(true);
+    } else {
+      if (value) {
+        try {
+          await LikeService.addLike(store.user.id, data.id);
+          setIsLiked(1);
+          store.setLikes([...store.reviewLike, data.id]);
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        try {
+          await LikeService.deleteLike(store.user.id, data.id);
+          setIsLiked(0);
+          store.setLikes(store.reviewLike.filter((id) => id != data.id));
+        } catch (e) {
+          console.log(e);
+        }
+      }
     }
   };
 
@@ -62,13 +91,13 @@ const Review: React.FC = () => {
                       color: "#ff3d47",
                     },
                   }}
-                  defaultValue={0}
+                  value={isLiked}
                   precision={1}
                   icon={<FavoriteIcon fontSize="inherit" />}
                   emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
                   max={1}
                   size="large"
-                  onClick={() => setWarningMessage(true)}
+                  onChange={(_, value) => like(value)}
                 />
               </div>
             </div>

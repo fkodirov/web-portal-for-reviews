@@ -20,6 +20,9 @@ const App: FC = () => {
       store.setLoading(false);
     }
   }, [store]);
+  useEffect(() => {
+    store.getUserLikes();
+  }, [store.isAuth, store]);
 
   if (store.isLoading) {
     return (

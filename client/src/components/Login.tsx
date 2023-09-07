@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useTranslation } from "react-i18next";
 import { Facebook, Google } from "react-bootstrap-icons";
+import { Context } from "../main";
 
 interface LoginProps {
   show: boolean;
@@ -11,6 +12,7 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ show, onClose }) => {
+  const { store } = useContext(Context);
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     email: "",
@@ -19,7 +21,7 @@ const Login: React.FC<LoginProps> = ({ show, onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    store.login(formData.email, formData.password);
   };
 
   return (
