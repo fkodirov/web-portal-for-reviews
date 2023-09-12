@@ -6,10 +6,17 @@ import ReviewService from "../services/ReviewService";
 import { Snackbar, Slide, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MdxEditor from "./MdxEditor";
+import UserService from "../services/UserService";
 
 const NewReview = () => {
   const navigate = useNavigate();
   const { store } = useContext(Context);
+  let id = 0;
+  const currentPath = window.location.pathname;
+  const pathParts = currentPath.split("/");
+  const userIndex = pathParts.indexOf("user");
+  id = +pathParts[userIndex + 1];
+
   const [title, setTitle] = useState("");
   const [nameofart, setNameofart] = useState("");
   const [category, setCategory] = useState("");
@@ -30,6 +37,8 @@ const NewReview = () => {
   const btnClick = useRef(false);
 
   useEffect(() => {
+    getUser(id);
+    // if (store.user.role !== "admin" && store.user.id != id) navigate("/404");
     return () => {
       const fieldsToCheck = [
         titleRef.current,
@@ -47,6 +56,20 @@ const NewReview = () => {
     };
   }, []);
 
+  const getUser = async (id: number) => {
+    try {
+      const response = await UserService.fetchUser(id);
+      console.log(response.data);
+      if (
+        response.data === null ||
+        (store.user.role !== "admin" && store.user.id != id)
+      )
+        navigate("/404");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const handleDraft = async (status: "draft" | "published" = "draft") => {
     try {
       await ReviewService.addReview(
@@ -58,7 +81,7 @@ const NewReview = () => {
         imageRef.current,
         +ratingRef.current,
         status,
-        store.user.id
+        id
       );
       store.setSaving(false);
     } catch (e) {
@@ -88,13 +111,13 @@ const NewReview = () => {
             image,
             +rating,
             status,
-            store.user.id
+            id
           );
           if (response.status === 200) {
             setSuccessMessage("Review successfully created!");
             isPublished.current = true;
             setTimeout(() => {
-              navigate(`/user/${store.user.id}/reviews`);
+              navigate(`/user/${id}/reviews`);
             }, 2500);
           }
         } catch (e) {

@@ -11,6 +11,12 @@ class ReviewService {
     });
     return review;
   }
+  async getUserReviews(userId) {
+    const reviews = await reviewModel.findAll({
+      where: { userId },
+    });
+    return reviews;
+  }
   async deleteReview(id) {
     await reviewModel.destroy({
       where: { id },

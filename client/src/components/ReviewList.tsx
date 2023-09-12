@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState, FC } from "react";
 import { Context } from "../main";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
@@ -13,28 +13,31 @@ import {
 } from "@mui/x-data-grid";
 import ReviewService from "../services/ReviewService";
 import { IReview } from "../models/IReview";
+import { IUser } from "../models/IUser";
 import { useNavigate } from "react-router-dom";
 import { storage } from "../firebase";
 import { ref, deleteObject } from "firebase/storage";
 import removeMd from "remove-markdown";
 
-const ReviewList = () => {
+const ReviewList: FC<{ user: IUser }> = ({ user }) => {
+  const [reviews, setReviews] = useState<IReview[]>([]);
   const { store } = useContext(Context);
+
   const navigate = useNavigate();
+
   useEffect(() => {
-    getReviews();
-  }, [store.isSaving]);
+    if (JSON.stringify(user) !== "{}") getUserReviews();
+  }, [user, store.isSaving]);
 
-  const [reviews, setReviews] = React.useState<IReview[]>([]);
-
-  const getReviews = async () => {
+  const getUserReviews = async () => {
     try {
-      const response = await ReviewService.fetchReviews();
+      const response = await ReviewService.fetchUserReviews(user.id);
       setReviews(response.data);
     } catch (e) {
       console.log(e);
     }
   };
+
   const handleEditClick = (id: GridRowId) => () => {
     navigate(`${id}/edit`);
   };

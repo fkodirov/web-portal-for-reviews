@@ -7,4 +7,5 @@ export interface IReview {
   text: string;
   img: string;
   rating: number;
+  userId: number;
 }

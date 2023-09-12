@@ -10,6 +10,9 @@ export default class UserService {
   static fetchReview(id: number): Promise<AxiosResponse<IReview>> {
     return api.get<IReview>(`/reviews/${id}`);
   }
+  static fetchUserReviews(userId: number): Promise<AxiosResponse<IReview[]>> {
+    return api.get<IReview[]>(`/user-reviews/${userId}`);
+  }
   static addReview(
     title: string,
     nameofart: string,

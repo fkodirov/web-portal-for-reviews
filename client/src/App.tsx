@@ -6,10 +6,12 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import UserReviews from "./components/UserReviews";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import NewReview from "./components/NewReview";
 import EditReview from "./components/EditReview";
 import Review from "./components/Review";
+import Dashboard from "./components/Dashboard";
+import ErrorPage from "./components/404";
 
 const App: FC = () => {
   const { store } = useContext(Context);
@@ -49,22 +51,22 @@ const App: FC = () => {
       <Routes>
         <Route path={`/`} element={<Main />} />
         <Route
-          path={`/user/${store.user.id}/reviews`}
-          element={<UserReviews />}
+          path={`/admin/${store.user.role === "admin" && store.user.id}/users`}
+          element={<Dashboard />}
         />
+        <Route path={`/user/:id/reviews`} element={<UserReviews />} />
+        <Route path={`/user/:id/new-review`} element={<NewReview />} />
         <Route
-          path={`/user/${store.user.id}/new-review`}
-          element={<NewReview />}
-        />
-        <Route
-          path={`/user/${store.user.id}/reviews/:id/edit`}
+          path={`/user/:id/reviews/:reviewId/edit`}
           element={<EditReview />}
         />
         <Route
-          path={`/user/${store.user.id}/reviews/:id/preview`}
+          path={`/user/:id/reviews/:reviewId/preview`}
           element={<Review />}
         />
         <Route path={`/reviews/:id/`} element={<Review />} />
+        <Route path={`/404`} element={<ErrorPage />} />
+        <Route path={`*`} element={<Navigate to="/404" />} />
       </Routes>
       <Footer />
     </>

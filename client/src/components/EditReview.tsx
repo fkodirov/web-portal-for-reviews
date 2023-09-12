@@ -14,6 +14,13 @@ const EditReview = () => {
   }, []);
 
   const { store } = useContext(Context);
+  let userId = 0;
+
+  const currentPath = window.location.pathname;
+  const pathParts = currentPath.split("/");
+  const userIndex = pathParts.indexOf("user");
+  userId = +pathParts[userIndex + 1];
+
   const [reviewId, setReviewId] = useState(0);
   const [title, setTitle] = useState("");
   const [nameofart, setNameofart] = useState("");
@@ -36,6 +43,13 @@ const EditReview = () => {
     try {
       const response = await ReviewService.fetchReview(id);
       const data = response.data;
+      console.log(data.userId);
+      if (
+        response.data === null ||
+        (store.user.role !== "admin" && store.user.id != data.userId) ||
+        userId !== store.user.id
+      )
+        navigate("/404");
       setTitle(data.title);
       setNameofart(data.nameofart);
       setCategory(data.category);
@@ -71,7 +85,11 @@ const EditReview = () => {
       if (response.status === 200) {
         setSuccessMessage("Review successfully updated!");
         setTimeout(() => {
-          navigate(`/user/${store.user.id}/reviews`);
+          navigate(
+            `/user/${
+              store.user.role !== "admin" ? store.user.id : userId
+            }/reviews`
+          );
         }, 2500);
       }
     } catch (e) {

@@ -19,6 +19,15 @@ class ReviewController {
       next(error);
     }
   }
+  async getUserReviews(req, res, next) {
+    try {
+      const userId = +req.params.id;
+      const reviews = await reviewService.getUserReviews(userId);
+      res.json(reviews);
+    } catch (error) {
+      next(error);
+    }
+  }
   async deleteReview(req, res, next) {
     try {
       const reviewId = +req.params.id;
