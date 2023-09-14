@@ -92,10 +92,10 @@ const Review: React.FC = () => {
           console.log(e);
         }
         try {
-          const updateRating = (
-            (parseFloat(data.rating) * 2 - rating + value) /
-            2
-          ).toFixed(1);
+          const updateRating =
+            data.votes != 1
+              ? ((parseFloat(data.rating) * 2 - rating + value) / 2).toFixed(1)
+              : value.toFixed(1);
           await ReviewService.updateRating(data.id, updateRating, data.votes);
           setRating(value);
           setData({
