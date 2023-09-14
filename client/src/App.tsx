@@ -24,6 +24,7 @@ const App: FC = () => {
   }, [store]);
   useEffect(() => {
     store.getUserLikes();
+    store.getUserRatings();
   }, [store.isAuth, store]);
 
   if (store.isLoading) {

@@ -22,7 +22,7 @@ const NewReview = () => {
   const [category, setCategory] = useState("");
   const [text, setText] = useState("");
   const [tags, setTags] = useState("");
-  const [rating, setRating] = useState("");
+  const [authorRating, setAuthorRating] = useState("");
   const [image, setImage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -31,7 +31,7 @@ const NewReview = () => {
   const categoryRef = useRef("");
   const textRef = useRef("");
   const tagsRef = useRef("");
-  const ratingRef = useRef("");
+  const authorRatingRef = useRef("");
   const imageRef = useRef("");
   const isPublished = useRef(false);
   const btnClick = useRef(false);
@@ -46,7 +46,9 @@ const NewReview = () => {
         categoryRef.current,
         textRef.current,
         tagsRef.current,
-        ratingRef.current,
+        authorRatingRef.current,
+        0,
+        0,
       ];
 
       if (!isPublished.current && fieldsToCheck.some((field) => field !== "")) {
@@ -79,7 +81,9 @@ const NewReview = () => {
         tagsRef.current,
         textRef.current,
         imageRef.current,
-        +ratingRef.current,
+        +authorRatingRef.current,
+        0,
+        0,
         status,
         id
       );
@@ -109,7 +113,9 @@ const NewReview = () => {
             tags,
             text,
             image,
-            +rating,
+            +authorRating,
+            0,
+            0,
             status,
             id
           );
@@ -220,7 +226,7 @@ const NewReview = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="rating" className="form-label">
-                Rating
+                Author Rating
               </label>
               <input
                 type="number"
@@ -229,11 +235,11 @@ const NewReview = () => {
                 name="rating"
                 min={0}
                 max={10}
-                value={rating}
+                value={authorRating}
                 onChange={(e) => {
                   const value = e.target.value;
-                  setRating(value);
-                  ratingRef.current = value;
+                  setAuthorRating(value);
+                  authorRatingRef.current = value;
                 }}
                 required
               />

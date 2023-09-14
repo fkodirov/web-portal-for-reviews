@@ -11,6 +11,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Stack from "@mui/material/Stack";
 import { Snackbar, Slide, Alert } from "@mui/material";
 import LikeService from "../services/LikeService";
+import RatingService from "../services/RatingService";
 
 const Review: React.FC = () => {
   const currentPath = window.location.pathname;
@@ -20,14 +21,21 @@ const Review: React.FC = () => {
   const { store } = useContext(Context);
   const [data, setData] = useState<IReview>(Object);
   const [isLiked, setIsLiked] = useState(0);
+  const [rating, setRating] = useState(0);
   const [isPreview, setIsPreview] = useState(false);
   const [warningMessage, setWarningMessage] = useState(false);
   useEffect(() => {
     getReview();
   }, []);
+
   useEffect(() => {
     setIsLiked(store.reviewLike.includes(id) ? 1 : 0);
   }, [store.reviewLike]);
+
+  useEffect(() => {
+    const foundItem = store.reviewRating.find((e) => e.reviewId === id);
+    if (foundItem) setRating(foundItem.rating);
+  }, [store.reviewRating]);
   const getReview = async () => {
     if (currentPath.includes("preview")) setIsPreview(true);
 
@@ -62,6 +70,101 @@ const Review: React.FC = () => {
       }
     }
   };
+  const handleRating = async (value: number | null) => {
+    if (isPreview) {
+      setWarningMessage(true);
+    } else {
+      if (value && rating) {
+        try {
+          await RatingService.updateRating(store.user.id, data.id, value);
+          const updatedRatings = store.reviewRating.map((e) => {
+            if (e.reviewId === data.id) {
+              return {
+                ...e,
+                rating: value,
+              };
+            }
+            return e;
+          });
+
+          store.setRatings(updatedRatings);
+        } catch (e) {
+          console.log(e);
+        }
+        try {
+          const updateRating = (
+            (parseFloat(data.rating) * 2 - rating + value) /
+            2
+          ).toFixed(1);
+          await ReviewService.updateRating(data.id, updateRating, data.votes);
+          setRating(value);
+          setData({
+            ...data,
+            rating: updateRating,
+            votes: data.votes,
+          });
+          store.setRatings([
+            ...store.reviewRating,
+            { userId: store.user.id, reviewId: data.id, rating: value },
+          ]);
+        } catch (e) {
+          console.log(e);
+        }
+      } else if (value) {
+        try {
+          await RatingService.addRating(store.user.id, data.id, value);
+          setRating(value);
+          store.setRatings([
+            ...store.reviewRating,
+            { userId: store.user.id, reviewId: data.id, rating: value },
+          ]);
+        } catch (e) {
+          console.log(e);
+        }
+        try {
+          const updateRating = data.votes
+            ? (
+                (parseFloat(data.rating) + parseFloat(value.toFixed(1))) /
+                2
+              ).toFixed(1)
+            : value.toFixed(1);
+          const updateVotes = data.votes + 1;
+          await ReviewService.updateRating(data.id, updateRating, updateVotes);
+          setData({
+            ...data,
+            rating: updateRating,
+            votes: updateVotes,
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        try {
+          await RatingService.deleteRating(data.id, store.user.id);
+          store.setRatings(
+            store.reviewRating.filter((e) => e.reviewId != data.id)
+          );
+        } catch (e) {
+          console.log(e);
+        }
+        try {
+          const updateRating = (parseFloat(data.rating) * 2 - rating).toFixed(
+            1
+          );
+          const updateVotes = data.votes - 1;
+          await ReviewService.updateRating(data.id, updateRating, updateVotes);
+          setRating(0);
+          setData({
+            ...data,
+            rating: updateRating,
+            votes: updateVotes,
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -80,7 +183,7 @@ const Review: React.FC = () => {
               <h1 className="col-md-8">{data.title}</h1>
               <div className="col-md-4 d-flex align-items-center justify-content-evenly">
                 <span className="text-success fs-2 fw-bold">
-                  {data.rating}.0
+                  {data.authorRating}.0
                 </span>
                 <Rating
                   sx={{
@@ -119,13 +222,17 @@ const Review: React.FC = () => {
                   <Stack spacing={1}>
                     <Rating
                       name="size-large"
-                      defaultValue={0}
+                      value={rating}
                       size="large"
-                      onClick={() => setWarningMessage(false)}
+                      onChange={(_, value) => handleRating(value)}
                     />
                   </Stack>
                 </div>
-                <div className="col-6">4.7 - 6 votes</div>
+                <div className="col-6">
+                  {data.votes
+                    ? `${data.rating} - ${data.votes} votes`
+                    : "0 votes"}
+                </div>
               </div>
             </div>
           </div>

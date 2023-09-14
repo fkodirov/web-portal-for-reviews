@@ -34,9 +34,17 @@ Review.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    rating: {
+    authorRating: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
+    },
+    rating: {
+      type: DataTypes.DECIMAL(2, 1),
+      allowNull: true,
+    },
+    votes: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
     },
     status: {
       type: DataTypes.ENUM("published", "draft"),

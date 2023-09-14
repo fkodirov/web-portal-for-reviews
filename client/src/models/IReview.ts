@@ -6,6 +6,8 @@ export interface IReview {
   tags: string;
   text: string;
   img: string;
-  rating: number;
+  authorRating: number;
+  rating: string;
+  votes: number;
   userId: number;
 }

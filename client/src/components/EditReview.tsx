@@ -27,7 +27,7 @@ const EditReview = () => {
   const [category, setCategory] = useState("");
   const [text, setText] = useState("");
   const [tags, setTags] = useState("");
-  const [rating, setRating] = useState("");
+  const [authorRating, setAuthorRating] = useState("");
   const [image, setImage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -55,7 +55,7 @@ const EditReview = () => {
       setCategory(data.category);
       setText(data.text);
       setTags(data.tags);
-      setRating(String(data.rating));
+      setAuthorRating(String(data.authorRating));
       setImage(data.img);
       setIsMdxVisible(true);
     } catch (e) {
@@ -79,7 +79,7 @@ const EditReview = () => {
         tags,
         text,
         image,
-        +rating,
+        +authorRating,
         status
       );
       if (response.status === 200) {
@@ -169,7 +169,7 @@ const EditReview = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="rating" className="form-label">
-                Rating
+                Author Rating
               </label>
               <input
                 type="number"
@@ -178,8 +178,8 @@ const EditReview = () => {
                 name="rating"
                 min={0}
                 max={10}
-                value={rating}
-                onChange={(e) => setRating(e.target.value)}
+                value={authorRating}
+                onChange={(e) => setAuthorRating(e.target.value)}
                 required
               />
             </div>

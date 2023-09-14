@@ -46,7 +46,9 @@ class ReviewController {
         tags,
         text,
         img,
+        authorRating,
         rating,
+        votes,
         status,
         userId,
       } = req.body;
@@ -57,7 +59,9 @@ class ReviewController {
         tags,
         text,
         img,
+        authorRating,
         rating,
+        votes,
         status,
         userId
       );
@@ -68,8 +72,16 @@ class ReviewController {
   }
   async updateReview(req, res, next) {
     try {
-      const { title, nameofart, category, tags, text, img, rating, status } =
-        req.body;
+      const {
+        title,
+        nameofart,
+        category,
+        tags,
+        text,
+        img,
+        authorRating,
+        status,
+      } = req.body;
       const reviewId = +req.params.id;
       await reviewService.updateReview(
         reviewId,
@@ -79,7 +91,7 @@ class ReviewController {
         tags,
         text,
         img,
-        rating,
+        authorRating,
         status
       );
       res.json({ message: "Review updated." });
@@ -92,6 +104,16 @@ class ReviewController {
       const reviewId = +req.params.id;
       await reviewService.deleteImage(reviewId);
       res.json({ message: "Image deleted." });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async updateRating(req, res, next) {
+    try {
+      const { rating, votes } = req.body;
+      const reviewId = +req.params.id;
+      await reviewService.updateRating(reviewId, rating, votes);
+      res.json({ message: "Review's rating updated." });
     } catch (error) {
       next(error);
     }

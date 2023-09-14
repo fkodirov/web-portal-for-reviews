@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { storage } from "../firebase";
 import { ref, deleteObject } from "firebase/storage";
 import removeMd from "remove-markdown";
+import RatingService from "../services/RatingService";
 
 const ReviewList: FC<{ user: IUser }> = ({ user }) => {
   const [reviews, setReviews] = useState<IReview[]>([]);
@@ -66,6 +67,12 @@ const ReviewList: FC<{ user: IUser }> = ({ user }) => {
     const imgUrl = reviews.filter((row) => row.id == id)[0].img;
     if (imgUrl) handleDeleteImage(imgUrl);
     setReviews(reviews.filter((row) => row.id !== id));
+    try {
+      await RatingService.deleteRating(+id);
+      store.setRatings(store.reviewRating.filter((e) => e.reviewId != id));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const columns: GridColDef[] = [
@@ -112,8 +119,8 @@ const ReviewList: FC<{ user: IUser }> = ({ user }) => {
       type: "string",
     },
     {
-      field: "rating",
-      headerName: "Rating",
+      field: "authorRating",
+      headerName: "AuthorRating",
       minWidth: 100,
       flex: 0.7,
       editable: false,

@@ -5,6 +5,8 @@ import axios from "axios";
 import { AuthResponse } from "../models/response/AuthResponse";
 import { API_URL } from "../http";
 import LikeService from "../services/LikeService";
+import RatingService from "../services/RatingService";
+import { IRating } from "../models/IRating";
 
 export default class Store {
   user = {} as IUser;
@@ -12,6 +14,7 @@ export default class Store {
   isLoading = true;
   isSaving = false;
   reviewLike: number[] = [];
+  reviewRating: IRating[] = [];
   constructor() {
     makeAutoObservable(this);
   }
@@ -33,6 +36,10 @@ export default class Store {
 
   setLikes(likes: number[]) {
     this.reviewLike = likes;
+  }
+
+  setRatings(ratings: IRating[]) {
+    this.reviewRating = ratings;
   }
 
   async login(email: string, password: string) {
@@ -93,6 +100,19 @@ export default class Store {
         const response = await LikeService.fetchLikes(this.user.id);
         const likes = response.data.map((e) => e.reviewId);
         this.setLikes(likes);
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+    }
+  }
+  async getUserRatings() {
+    if (this.user.id) {
+      try {
+        const response = await RatingService.fetchRatings(this.user.id);
+        console.log(response.data);
+        // const ratings = response.data.map((e) => e.reviewId);
+        this.setRatings(response.data);
       } catch (e) {
         console.log(e);
         throw e;

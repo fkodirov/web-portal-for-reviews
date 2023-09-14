@@ -1,5 +1,3 @@
-const connection = require("../db/dbconnect");
-const Like = require("../models/Like");
 const likeService = require("../services/like-service");
 
 class LikeController {

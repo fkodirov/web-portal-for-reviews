@@ -20,7 +20,9 @@ export default class UserService {
     tags: string,
     text: string,
     img: string | null,
+    authorRating: number,
     rating: number,
+    votes: number,
     status: "published" | "draft",
     userId: number
   ): Promise<AxiosResponse<UpdateResponse>> {
@@ -31,7 +33,9 @@ export default class UserService {
       tags,
       text,
       img,
+      authorRating,
       rating,
+      votes,
       status,
       userId,
     });
@@ -44,7 +48,7 @@ export default class UserService {
     tags: string,
     text: string,
     img: string,
-    rating: number,
+    authorRating: number,
     status: "published" | "draft"
   ): Promise<AxiosResponse<UpdateResponse>> {
     return api.put<UpdateResponse>(`/reviews/${id}`, {
@@ -54,8 +58,18 @@ export default class UserService {
       tags,
       text,
       img,
-      rating,
+      authorRating,
       status,
+    });
+  }
+  static updateRating(
+    id: number,
+    rating: string,
+    votes: number
+  ): Promise<AxiosResponse<UpdateResponse>> {
+    return api.put<UpdateResponse>(`/reviews-rating/${id}`, {
+      rating,
+      votes,
     });
   }
   static deleteImage(id: number): Promise<AxiosResponse<UpdateResponse>> {

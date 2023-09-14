@@ -29,7 +29,9 @@ class ReviewService {
     tags,
     text,
     img,
+    authorRating,
     rating,
+    votes,
     status,
     userId
   ) {
@@ -40,7 +42,9 @@ class ReviewService {
       tags,
       text,
       img,
+      authorRating,
       rating,
+      votes,
       status,
       userId,
     });
@@ -54,7 +58,7 @@ class ReviewService {
     tags,
     text,
     img,
-    rating,
+    authorRating,
     status
   ) {
     const review = await reviewModel.findOne({
@@ -66,7 +70,7 @@ class ReviewService {
     review.tags = tags;
     review.text = text;
     review.img = img;
-    review.rating = rating;
+    review.authorRating = authorRating;
     review.status = status;
     await review.save();
   }
@@ -75,6 +79,14 @@ class ReviewService {
       where: { id },
     });
     review.img = null;
+    await review.save();
+  }
+  async updateRating(id, rating, votes) {
+    const review = await reviewModel.findOne({
+      where: { id },
+    });
+    review.rating = rating;
+    review.votes = votes;
     await review.save();
   }
 }
