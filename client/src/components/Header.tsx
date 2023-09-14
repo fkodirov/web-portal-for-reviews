@@ -8,11 +8,15 @@ const Header: React.FC = () => {
   const { store } = useContext(Context);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+  };
+  const handleToggleClick = () => {
+    setShowMenu(!showMenu);
   };
   return (
     <>
@@ -30,10 +34,14 @@ const Header: React.FC = () => {
               aria-controls="navbarTogglerDemo02"
               aria-expanded="false"
               aria-label="Toggle navigation"
+              onClick={handleToggleClick}
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <div
+              className={`collapse ${showMenu && `show`} navbar-collapse`}
+              id="navbarTogglerDemo02"
+            >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <a className="nav-link active" aria-current="page" href="#">
