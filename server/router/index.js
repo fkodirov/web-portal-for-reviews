@@ -13,7 +13,7 @@ router.get("/refresh", userController.refresh);
 router.get("/users", authMiddleware, userController.getUsers);
 router.get("/user/:id", authMiddleware, userController.getUser);
 router.post("/review", authMiddleware, ReviewController.addReview);
-router.get("/reviews", authMiddleware, ReviewController.getReviews);
+router.post("/reviews", authMiddleware, ReviewController.getReviews);
 router.get(
   "/user-reviews/:id",
   authMiddleware,

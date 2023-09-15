@@ -4,7 +4,8 @@ const reviewService = require("../services/review-service");
 class ReviewController {
   async getReviews(req, res, next) {
     try {
-      const reviews = await reviewService.getAllReviews();
+      const { column, sort } = req.body;
+      const reviews = await reviewService.getAllReviews(column, sort);
       res.json(reviews);
     } catch (error) {
       next(error);

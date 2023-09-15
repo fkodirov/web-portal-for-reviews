@@ -1,8 +1,10 @@
 const reviewModel = require("../models/Review");
-const apiError = require("../exceptions/api-error");
 class ReviewService {
-  async getAllReviews() {
-    const reviews = await reviewModel.findAll();
+  async getAllReviews(column, sort) {
+    const reviews = await reviewModel.findAll({
+      order: [[column, sort]],
+      limit: 20,
+    });
     return reviews;
   }
   async getReview(id) {

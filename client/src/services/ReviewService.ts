@@ -4,8 +4,11 @@ import { IReview } from "../models/IReview";
 import { UpdateResponse } from "../models/response/UserResponse";
 
 export default class UserService {
-  static fetchReviews(): Promise<AxiosResponse<IReview[]>> {
-    return api.get<IReview[]>("/reviews");
+  static fetchReviews(
+    column: string,
+    sort: string
+  ): Promise<AxiosResponse<IReview[]>> {
+    return api.post<IReview[]>("/reviews", { column, sort });
   }
   static fetchReview(id: number): Promise<AxiosResponse<IReview>> {
     return api.get<IReview>(`/reviews/${id}`);

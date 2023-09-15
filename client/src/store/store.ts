@@ -110,7 +110,7 @@ export default class Store {
     if (this.user.id) {
       try {
         const response = await RatingService.fetchRatings(this.user.id);
-        console.log(response.data);
+        // console.log(response.data);
         // const ratings = response.data.map((e) => e.reviewId);
         this.setRatings(response.data);
       } catch (e) {
