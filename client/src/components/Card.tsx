@@ -40,7 +40,9 @@ const Card: React.FC<CardProps> = ({ review, like, rating }) => {
         </div>
         <div className="card-footer d-flex justify-content-evenly">
           <div className="card-rating d-flex gap-3">
-            <div className="rate">{review.rating}</div>
+            <div className="rate">
+              {parseFloat(review.rating) ? review.rating : ""}
+            </div>
             {rating ? <StarIcon htmlColor="#faaf00" /> : <StarBorderIcon />}
           </div>
           <div className="card-favorite">

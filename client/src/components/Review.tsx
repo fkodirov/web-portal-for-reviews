@@ -148,9 +148,10 @@ const Review: React.FC = () => {
           console.log(e);
         }
         try {
-          const updateRating = (parseFloat(data.rating) * 2 - rating).toFixed(
-            1
-          );
+          const updateRating =
+            data.votes != 1
+              ? (parseFloat(data.rating) * 2 - rating).toFixed(1)
+              : "0.0";
           const updateVotes = data.votes - 1;
           await ReviewService.updateRating(data.id, updateRating, updateVotes);
           setRating(0);
