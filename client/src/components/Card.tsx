@@ -16,7 +16,7 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ review, like, rating }) => {
   return (
     <>
-      <div className="col-lg-4 col-md-5 card card-default shadow p-3 mb-5 rounded">
+      <div className="col-xl-3 col-lg-4 col-md-5 card card-default shadow p-3 mb-5 rounded">
         <div className="">
           <img
             className="card-img-top"

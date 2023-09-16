@@ -84,3 +84,10 @@ blockquote {
   height: 100% !important;
   min-height: 218px;
 }
+.tag-cloud {
+  .tag-cloud-tag:hover {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

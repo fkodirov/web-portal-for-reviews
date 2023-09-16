@@ -1,5 +1,4 @@
 const likeModel = require("../models/Like");
-const apiError = require("../exceptions/api-error");
 class LikeService {
   async getAllLike(userId) {
     const likes = await likeModel.findAll({

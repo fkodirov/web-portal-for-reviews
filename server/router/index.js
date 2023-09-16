@@ -13,7 +13,7 @@ router.get("/refresh", userController.refresh);
 router.get("/users", authMiddleware, userController.getUsers);
 router.get("/user/:id", authMiddleware, userController.getUser);
 router.post("/review", authMiddleware, ReviewController.addReview);
-router.post("/reviews", authMiddleware, ReviewController.getReviews);
+router.post("/reviews", ReviewController.getReviews);
 router.get(
   "/user-reviews/:id",
   authMiddleware,
@@ -26,7 +26,7 @@ router.put(
   ReviewController.updateRating
 );
 router.get("/reviews/:id", authMiddleware, ReviewController.getReview);
-router.get("/tags", authMiddleware, ReviewController.getTags);
+router.get("/tags", ReviewController.getTags);
 router.put("/image/:id", authMiddleware, ReviewController.deleteImage);
 router.delete("/reviews/:id", authMiddleware, ReviewController.deleteReview);
 router.get("/likes/:id", authMiddleware, LikeController.getUserLikes);

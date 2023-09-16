@@ -4,6 +4,8 @@ import Card from "./Card";
 import ReviewService from "../services/ReviewService";
 import { IReview } from "../models/IReview";
 import { Context } from "../main";
+import TagCloudComponent from "./TagCloud";
+
 const Main: React.FC = () => {
   const { store } = useContext(Context);
   const [topReviews, setTopReviews] = useState<IReview[]>([]);
@@ -25,18 +27,25 @@ const Main: React.FC = () => {
   };
 
   return (
-    <main className="container">
-      <div className="row gap-3 p-4 justify-content-center">
-        {topReviews.map((review) => (
-          <Card
-            key={review.id}
-            review={review}
-            like={store.reviewLike.includes(review.id) ? 1 : 0}
-            rating={ratings.includes(review.id) ? 1 : 0}
-          />
-        ))}
+    <div className="container-fluid">
+      <div className="row">
+        <main className="col-md-9">
+          <div className="row gap-3 pt-4 justify-content-center">
+            {topReviews.map((review) => (
+              <Card
+                key={review.id}
+                review={review}
+                like={store.reviewLike.includes(review.id) ? 1 : 0}
+                rating={ratings.includes(review.id) ? 1 : 0}
+              />
+            ))}
+          </div>
+        </main>
+        <aside className="col-md-3 text-center">
+          <TagCloudComponent />
+        </aside>
       </div>
-    </main>
+    </div>
   );
 };
 

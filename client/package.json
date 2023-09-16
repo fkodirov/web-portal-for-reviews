@@ -32,8 +32,9 @@
     "react-dropzone": "^14.2.3",
     "react-i18next": "^13.2.0",
     "react-markdown": "^8.0.7",
-    "react-quill": "^2.0.0",
+    "react-quill": "^0.0.2",
     "react-router-dom": "^6.15.0",
+    "react-tagcloud": "^2.3.1",
     "remove-markdown": "^0.5.0",
     "sass": "^1.66.1",
     "styled-components": "^5.3.11"
@@ -41,6 +42,7 @@
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/react-tagcloud": "^1.1.8",
     "@types/remove-markdown": "^0.3.1",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
