@@ -25,7 +25,7 @@ router.put(
   authMiddleware,
   ReviewController.updateRating
 );
-router.get("/reviews/:id", authMiddleware, ReviewController.getReview);
+router.get("/reviews/:id", ReviewController.getReview);
 router.get("/tags", ReviewController.getTags);
 router.put("/image/:id", authMiddleware, ReviewController.deleteImage);
 router.delete("/reviews/:id", authMiddleware, ReviewController.deleteReview);

@@ -41,7 +41,12 @@ const App: FC = () => {
     return (
       <>
         <Header />
-        <Main />
+        <Routes>
+          <Route path={`/`} element={<Main />} />
+          <Route path={`/reviews/:id/`} element={<Review />} />
+          <Route path={`/404`} element={<ErrorPage />} />
+          <Route path={`*`} element={<Navigate to="/404" />} />
+        </Routes>
         <Footer />
       </>
     );

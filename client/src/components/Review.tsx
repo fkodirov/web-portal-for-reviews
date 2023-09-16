@@ -50,7 +50,8 @@ const Review: React.FC = () => {
   const like = async (value: number | null) => {
     if (isPreview) {
       setWarningMessage(true);
-    } else {
+    } else if (!store.isAuth) setWarningMessage(true);
+    else {
       if (value) {
         try {
           await LikeService.addLike(store.user.id, data.id);
@@ -73,7 +74,8 @@ const Review: React.FC = () => {
   const handleRating = async (value: number | null) => {
     if (isPreview) {
       setWarningMessage(true);
-    } else {
+    } else if (!store.isAuth) setWarningMessage(true);
+    else {
       if (value && rating) {
         try {
           await RatingService.updateRating(store.user.id, data.id, value);
@@ -252,7 +254,7 @@ const Review: React.FC = () => {
           TransitionComponent={Slide}
         >
           <Alert severity="warning" onClose={() => setWarningMessage(false)}>
-            Preview Mode!
+            {isPreview ? "Preview Mode!" : "Please log in"}
           </Alert>
         </Snackbar>
       </div>
