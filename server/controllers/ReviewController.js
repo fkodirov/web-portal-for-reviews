@@ -119,6 +119,14 @@ class ReviewController {
       next(error);
     }
   }
+  async getTags(req, res, next) {
+    try {
+      const tags = await reviewService.getAllTags();
+      res.json(tags);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new ReviewController();

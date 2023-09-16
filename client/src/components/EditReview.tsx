@@ -6,11 +6,16 @@ import { observer } from "mobx-react-lite";
 import ReviewService from "../services/ReviewService";
 import { Snackbar, Alert, Slide } from "@mui/material";
 import MdxEditor from "./MdxEditor";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import Chip from "@mui/material/Chip";
 
 const EditReview = () => {
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     getReview();
+    getTags();
   }, []);
 
   const { store } = useContext(Context);
@@ -58,6 +63,16 @@ const EditReview = () => {
       setAuthorRating(String(data.authorRating));
       setImage(data.img);
       setIsMdxVisible(true);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getTags = async () => {
+    try {
+      const response = await ReviewService.fetchTags();
+      const getAllTags = [...new Set(response.data.map((e) => e.tags))];
+      setAvailableTags(getAllTags);
     } catch (e) {
       console.log(e);
     }
@@ -157,14 +172,27 @@ const EditReview = () => {
               <label htmlFor="tags" className="form-label">
                 Tags
               </label>
-              <input
-                type="text"
-                className="form-control"
-                id="tags"
-                name="tags"
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-                required
+              <Autocomplete
+                onChange={(_, value) => {
+                  const newValue = value.join(",");
+                  setTags(newValue);
+                  console.log(newValue);
+                }}
+                value={tags ? tags.split(",") : []}
+                multiple
+                id="tags-filled"
+                options={availableTags}
+                freeSolo
+                renderTags={(value: readonly string[], getTagProps) =>
+                  value.map((option: string, index: number) => (
+                    <Chip
+                      variant="outlined"
+                      label={option}
+                      {...getTagProps({ index })}
+                    />
+                  ))
+                }
+                renderInput={(params) => <TextField {...params} />}
               />
             </div>
             <div className="mb-3">

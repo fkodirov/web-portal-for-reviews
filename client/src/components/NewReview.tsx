@@ -7,6 +7,9 @@ import { Snackbar, Slide, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MdxEditor from "./MdxEditor";
 import UserService from "../services/UserService";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import Chip from "@mui/material/Chip";
 
 const NewReview = () => {
   const navigate = useNavigate();
@@ -26,6 +29,7 @@ const NewReview = () => {
   const [image, setImage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
   const titleRef = useRef("");
   const nameofartRef = useRef("");
   const categoryRef = useRef("");
@@ -39,6 +43,7 @@ const NewReview = () => {
   useEffect(() => {
     getUser(id);
     // if (store.user.role !== "admin" && store.user.id != id) navigate("/404");
+    getTags();
     return () => {
       const fieldsToCheck = [
         titleRef.current,
@@ -51,7 +56,7 @@ const NewReview = () => {
         0,
       ];
 
-      if (!isPublished.current && fieldsToCheck.some((field) => field !== "")) {
+      if (!isPublished.current && fieldsToCheck.some((field) => field != "")) {
         store.setSaving(true);
         handleDraft();
       }
@@ -61,12 +66,20 @@ const NewReview = () => {
   const getUser = async (id: number) => {
     try {
       const response = await UserService.fetchUser(id);
-      console.log(response.data);
       if (
         response.data === null ||
         (store.user.role !== "admin" && store.user.id != id)
       )
         navigate("/404");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const getTags = async () => {
+    try {
+      const response = await ReviewService.fetchTags();
+      const getAllTags = [...new Set(response.data.map((e) => e.tags))];
+      setAvailableTags(getAllTags);
     } catch (e) {
       console.log(e);
     }
@@ -102,7 +115,6 @@ const NewReview = () => {
     e.preventDefault();
     console.log("Lick");
     if (e.target instanceof HTMLElement) {
-      // console.log(e.target);
       if (btnClick.current) {
         try {
           const status = "published";
@@ -210,18 +222,26 @@ const NewReview = () => {
               <label htmlFor="tags" className="form-label">
                 Tags
               </label>
-              <input
-                type="text"
-                className="form-control"
-                id="tags"
-                name="tags"
-                value={tags}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setTags(value);
-                  tagsRef.current = value;
+              <Autocomplete
+                onChange={(_, value) => {
+                  const newValue = value.join(",");
+                  setTags(newValue);
+                  tagsRef.current = newValue;
                 }}
-                required
+                multiple
+                id="tags-filled"
+                options={availableTags}
+                freeSolo
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip
+                      variant="outlined"
+                      label={option}
+                      {...getTagProps({ index })}
+                    />
+                  ))
+                }
+                renderInput={(params) => <TextField {...params} />}
               />
             </div>
             <div className="mb-3">

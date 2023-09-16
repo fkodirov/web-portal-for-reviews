@@ -91,6 +91,15 @@ class ReviewService {
     review.votes = votes;
     await review.save();
   }
+  async getAllTags() {
+    const tags = await reviewModel.findAll({
+      attributes: ["tags"],
+      where: {
+        status: "published",
+      },
+    });
+    return tags;
+  }
 }
 
 module.exports = new ReviewService();

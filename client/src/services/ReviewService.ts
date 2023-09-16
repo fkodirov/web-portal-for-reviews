@@ -81,4 +81,7 @@ export default class UserService {
   static deleteReview(id: number): Promise<AxiosResponse<UpdateResponse>> {
     return api.delete<UpdateResponse>(`/reviews/${id}`);
   }
+  static fetchTags(): Promise<AxiosResponse<{ tags: string }[]>> {
+    return api.get<{ tags: string }[]>("/tags");
+  }
 }
