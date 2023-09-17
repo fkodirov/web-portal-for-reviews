@@ -113,7 +113,6 @@ const NewReview = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Lick");
     if (e.target instanceof HTMLElement) {
       if (btnClick.current) {
         try {

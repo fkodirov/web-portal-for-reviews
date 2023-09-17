@@ -94,6 +94,15 @@ class UserController {
       next(error);
     }
   }
+  async getUsersName(req, res, next) {
+    try {
+      const { ids } = req.body;
+      const users = await userService.getUsersName(ids);
+      res.json(users);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new UserController();

@@ -6,7 +6,12 @@ export default class UserService {
   static fetchUsers(): Promise<AxiosResponse<IUser[]>> {
     return api.get<IUser[]>("/users");
   }
+
   static fetchUser(id: number): Promise<AxiosResponse<IUser>> {
     return api.get<IUser>(`/user/${id}`);
+  }
+
+  static fetchUsersName(ids: number[]): Promise<AxiosResponse<IUser[]>> {
+    return api.post<IUser[]>("/users-name", { ids });
   }
 }

@@ -117,6 +117,15 @@ class UserService {
     user.status = status;
     await user.save();
   }
+  async getUsersName(ids) {
+    const users = await userModel.findAll({
+      attributes: ["id", "name"],
+      where: {
+        id: ids,
+      },
+    });
+    return users;
+  }
 }
 
 module.exports = new UserService();

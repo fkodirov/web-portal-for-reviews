@@ -12,6 +12,7 @@ import Stack from "@mui/material/Stack";
 import { Snackbar, Slide, Alert } from "@mui/material";
 import LikeService from "../services/LikeService";
 import RatingService from "../services/RatingService";
+import Comments from "./Comments";
 
 const Review: React.FC = () => {
   const currentPath = window.location.pathname;
@@ -243,6 +244,8 @@ const Review: React.FC = () => {
         <div className="content my-4">
           <ReactMarkdown>{data.text}</ReactMarkdown>
         </div>
+        <hr />
+        <Comments reviewId={data.id} />
         <Snackbar
           open={!!warningMessage}
           autoHideDuration={1000}
