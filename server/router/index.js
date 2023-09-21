@@ -1,4 +1,5 @@
 const Router = require("express");
+const passport = require("passport");
 const router = new Router();
 const userController = require("../controllers/UserController");
 const ReviewController = require("../controllers/ReviewController");
@@ -42,4 +43,25 @@ router.get("/comments/:id", CommentController.getReviewComments);
 router.post("/comments", authMiddleware, CommentController.addComment);
 router.delete("/comments", authMiddleware, CommentController.deleteComment);
 router.get("/comments-sse", CommentController.commentStream);
+
+// router.get(
+//   "/auth/google",
+//   passport.authenticate("google", { scope: ["profile", "email"] })
+// );
+
+// // Маршрут обратного вызова после успешной аутентификации
+// router.get(
+//   "/auth/google/callback",
+//   passport.authenticate("google", { failureRedirect: "/" }),
+//   (req, res) => {
+//     // В этой функции вы можете выполнить дополнительные действия после успешной аутентификации
+//     res.redirect("http://localhost:5173"); // Можете перенаправить пользователя на другую страницу
+//   }
+// );
+
+// // Маршрут для выхода
+// router.get("/logout", (req, res) => {
+//   req.logout();
+//   res.redirect("/");
+// });
 module.exports = router;

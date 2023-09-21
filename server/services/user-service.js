@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const tokenService = require("./token-service");
 const apiError = require("../exceptions/api-error");
+const { Op } = require("sequelize");
 const EMAIL_REGEXP =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 function validateEmail(value) {
@@ -10,7 +11,13 @@ function validateEmail(value) {
 }
 class UserService {
   async registration(name, email, password) {
-    const candidate = await userModel.findOne({ where: { email: email } });
+    const candidate = await userModel.findOne({
+      where: {
+        email: email,
+        [Op.or]: [{ googleId: null }, { googleId: "" }],
+      },
+    });
+
     if (candidate) {
       throw apiError.BadRequest("A user with the same email already exists");
     }
@@ -43,7 +50,12 @@ class UserService {
   }
 
   async login(email, password) {
-    const user = await userModel.findOne({ where: { email: email } });
+    const user = await userModel.findOne({
+      where: {
+        email: email,
+        [Op.or]: [{ googleId: null }, { googleId: "" }],
+      },
+    });
     if (!user) {
       throw apiError.BadRequest("User not found");
     }

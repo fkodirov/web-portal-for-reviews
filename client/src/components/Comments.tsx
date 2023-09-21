@@ -135,28 +135,30 @@ const Comments: React.FC<{ reviewId: number }> = ({ reviewId }) => {
         <div className="mb-3">
           <h4 className="fs-5 my-3">Comments</h4>
           {comments.map((e, index) => (
-            <div key={index} className="d-flex gap-3">
-              <Avatar
-                className="mt-1"
-                {...stringAvatar(
-                  usersName
-                    .find((user) => user.id === e.userId)
-                    ?.name?.toUpperCase()
-                    .toString() || ""
-                )}
-              />
-              <div>
-                <div className="d-flex gap-3">
-                  <p className="mb-0">
-                    <b>{e.userId}</b>
-                  </p>
-                  <p className="mb-0">
-                    <small className="text-muted">{formatDate(e.date)}</small>
-                  </p>
+            <>
+              <div key={index} className="d-flex gap-3 comment">
+                <Avatar
+                  className="mt-1"
+                  {...stringAvatar(
+                    usersName
+                      .find((user) => user.id === e.userId)
+                      ?.name?.toUpperCase()
+                      .toString() || ""
+                  )}
+                />
+                <div>
+                  <div className="d-flex gap-3">
+                    <p className="mb-0">
+                      <b>{e.userId}</b>
+                    </p>
+                    <p className="mb-0">
+                      <small className="text-muted">{formatDate(e.date)}</small>
+                    </p>
+                  </div>
+                  <p>{e.comment}</p>
                 </div>
-                <p>{e.comment}</p>
               </div>
-            </div>
+            </>
           ))}
         </div>
       </div>

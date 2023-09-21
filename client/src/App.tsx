@@ -27,6 +27,30 @@ const App: FC = () => {
     store.getUserRatings();
   }, [store.isAuth, store]);
 
+  useEffect(() => {
+    const getUser = async () => {
+      fetch("http://localhost:5000/auth/google/login/success", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+          "Access-Control-Allow-Credentials": "true",
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((resObject) => {
+          console.log(resObject);
+          store.setAuth(true);
+          store.setUser(resObject.user);
+          store.setLoading(false);
+        });
+    };
+    getUser();
+  }, []);
+
   if (store.isLoading) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
