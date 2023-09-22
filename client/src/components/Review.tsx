@@ -187,7 +187,7 @@ const Review: React.FC = () => {
               <h1 className="col-md-8">{data.title}</h1>
               <div className="col-md-4 d-flex align-items-center justify-content-evenly">
                 <span className="text-success fs-2 fw-bold">
-                  {data.authorRating}.0
+                  {data.authorRating && data.authorRating.toFixed(1)}
                 </span>
                 <Rating
                   sx={{

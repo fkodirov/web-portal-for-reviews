@@ -4,6 +4,7 @@ class ReviewService {
     const reviews = await reviewModel.findAll({
       order: [[column, sort]],
       limit: 20,
+      where: { status: "published" },
     });
     return reviews;
   }

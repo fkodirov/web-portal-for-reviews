@@ -1,3 +1,4 @@
+require("dotenv").config();
 const Router = require("express");
 const passport = require("passport");
 const router = new Router();
@@ -17,16 +18,23 @@ router.get("/auth/google/login/success", (req, res) => {
   }
 });
 
+router.get("/auth/google/login/failed", (req, res) => {
+  res.status(401).json({
+    success: false,
+    message: "Failure",
+  });
+});
+
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    successRedirect: "http://localhost:5173",
-    failureRedirect: "/",
+    successRedirect: process.env.CLIENT_URL,
+    failureRedirect: "/auth/google/login/failed",
   })
 );
 
-router.get("/logout", (req, res) => {
+router.get("/auth/google/logout", (req, res) => {
   req.logout();
-  res.redirect("/");
+  res.redirect(process.env.CLIENT_URL);
 });
 module.exports = router;

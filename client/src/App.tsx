@@ -12,6 +12,7 @@ import EditReview from "./components/EditReview";
 import Review from "./components/Review";
 import Dashboard from "./components/Dashboard";
 import ErrorPage from "./components/404";
+import Profile from "./components/Profile";
 
 const App: FC = () => {
   const { store } = useContext(Context);
@@ -42,7 +43,6 @@ const App: FC = () => {
           return response.json();
         })
         .then((resObject) => {
-          console.log(resObject);
           store.setAuth(true);
           store.setUser(resObject.user);
           store.setLoading(false);
@@ -84,6 +84,7 @@ const App: FC = () => {
           path={`/admin/${store.user.role === "admin" && store.user.id}/users`}
           element={<Dashboard />}
         />
+        <Route path={`/user/:id/profile`} element={<Profile />} />
         <Route path={`/user/:id/reviews`} element={<UserReviews />} />
         <Route path={`/user/:id/new-review`} element={<NewReview />} />
         <Route

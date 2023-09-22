@@ -30,7 +30,9 @@ const Card: React.FC<CardProps> = ({ review, like, rating }) => {
               <Link to={`/reviews/${review.id}`}>{review.title} </Link>
             </h5>
             <div className="author-rate">
-              <span className="badge bg-success">{review.authorRating}</span>
+              <span className="badge bg-success">
+                {review.authorRating && review.authorRating.toFixed(1)}
+              </span>
             </div>
           </div>
           <h6>

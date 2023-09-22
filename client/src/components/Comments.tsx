@@ -6,6 +6,7 @@ import Avatar from "@mui/material/Avatar";
 import { IComment } from "../models/IComment";
 import UserService from "../services/UserService";
 import { IUser } from "../models/IUser";
+import { stringAvatar } from "../utils/helper";
 
 const Comments: React.FC<{ reviewId: number }> = ({ reviewId }) => {
   const [comment, setComment] = useState("");
@@ -63,32 +64,7 @@ const Comments: React.FC<{ reviewId: number }> = ({ reviewId }) => {
       console.log(e);
     }
   };
-  function stringToColor(string: string) {
-    let hash = 0;
-    let i;
 
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let color = "#";
-
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.slice(-2);
-    }
-
-    return color;
-  }
-
-  function stringAvatar(name: string) {
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-      },
-      children: `${name.split(" ")[0][0]}`,
-    };
-  }
   function formatDate(dateString: string): string {
     const inputDate = new Date(dateString);
     const currentDate = new Date();
@@ -133,7 +109,7 @@ const Comments: React.FC<{ reviewId: number }> = ({ reviewId }) => {
           </div>
         </div>
         <div className="mb-3">
-          <h4 className="fs-5 my-3">Comments</h4>
+          <h4 className="fs-5 my-3">{comments.length != 0 && "Comments"}</h4>
           {comments.map((e, index) => (
             <>
               <div key={index} className="d-flex gap-3 comment">

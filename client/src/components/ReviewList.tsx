@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useEffect, useContext, useState, FC } from "react";
 import { Context } from "../main";
 import Box from "@mui/material/Box";
