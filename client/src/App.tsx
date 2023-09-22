@@ -13,6 +13,7 @@ import Review from "./components/Review";
 import Dashboard from "./components/Dashboard";
 import ErrorPage from "./components/404";
 import Profile from "./components/Profile";
+import SearchResult from "./components/SearchResult";
 
 const App: FC = () => {
   const { store } = useContext(Context);
@@ -68,6 +69,7 @@ const App: FC = () => {
         <Routes>
           <Route path={`/`} element={<Main />} />
           <Route path={`/reviews/:id/`} element={<Review />} />
+          <Route path={`/search`} element={<SearchResult />} />
           <Route path={`/404`} element={<ErrorPage />} />
           <Route path={`*`} element={<Navigate to="/404" />} />
         </Routes>
@@ -96,6 +98,7 @@ const App: FC = () => {
           element={<Review />}
         />
         <Route path={`/reviews/:id/`} element={<Review />} />
+        <Route path={`/search`} element={<SearchResult />} />
         <Route path={`/404`} element={<ErrorPage />} />
         <Route path={`*`} element={<Navigate to="/404" />} />
       </Routes>

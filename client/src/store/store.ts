@@ -15,6 +15,7 @@ export default class Store {
   isSaving = false;
   reviewLike: number[] = [];
   reviewRating: IRating[] = [];
+  searchQuery = "";
   constructor() {
     makeAutoObservable(this);
   }
@@ -40,6 +41,9 @@ export default class Store {
 
   setRatings(ratings: IRating[]) {
     this.reviewRating = ratings;
+  }
+  setSearchQuery(query: string) {
+    this.searchQuery = query;
   }
 
   async login(email: string, password: string) {

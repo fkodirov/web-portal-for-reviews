@@ -7,6 +7,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 const LikeController = require("../controllers/LikeController");
 const RatingController = require("../controllers/RatingController");
 const CommentController = require("../controllers/CommentController");
+const SearchController = require("../controllers/SearchController");
 
 router.post("/registration", userController.registration);
 router.post("/login", userController.login);
@@ -43,25 +44,6 @@ router.get("/comments/:id", CommentController.getReviewComments);
 router.post("/comments", authMiddleware, CommentController.addComment);
 router.delete("/comments", authMiddleware, CommentController.deleteComment);
 router.get("/comments-sse", CommentController.commentStream);
+router.post("/search", SearchController.search);
 
-// router.get(
-//   "/auth/google",
-//   passport.authenticate("google", { scope: ["profile", "email"] })
-// );
-
-// // Маршрут обратного вызова после успешной аутентификации
-// router.get(
-//   "/auth/google/callback",
-//   passport.authenticate("google", { failureRedirect: "/" }),
-//   (req, res) => {
-//     // В этой функции вы можете выполнить дополнительные действия после успешной аутентификации
-//     res.redirect("http://localhost:5173"); // Можете перенаправить пользователя на другую страницу
-//   }
-// );
-
-// // Маршрут для выхода
-// router.get("/logout", (req, res) => {
-//   req.logout();
-//   res.redirect("/");
-// });
 module.exports = router;

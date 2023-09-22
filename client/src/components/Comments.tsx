@@ -90,24 +90,29 @@ const Comments: React.FC<{ reviewId: number }> = ({ reviewId }) => {
   return (
     <>
       <div className="container-fluid">
-        <div className="mb-3">
-          <label htmlFor="comment-field" className="form-label fs-5">
-            Add a comment
-          </label>
-          <textarea
-            className="form-control"
-            id="comment-field"
-            rows={4}
-            placeholder="Comment..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          ></textarea>
-          <div className="text-end mt-3">
-            <button className="btn btn-primary" onClick={() => handleSubmit()}>
-              Добавить{" "}
-            </button>
+        {store.isAuth && (
+          <div className="mb-3">
+            <label htmlFor="comment-field" className="form-label fs-5">
+              Add a comment
+            </label>
+            <textarea
+              className="form-control"
+              id="comment-field"
+              rows={4}
+              placeholder="Comment..."
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            ></textarea>
+            <div className="text-end mt-3">
+              <button
+                className="btn btn-primary"
+                onClick={() => handleSubmit()}
+              >
+                Добавить{" "}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
         <div className="mb-3">
           <h4 className="fs-5 my-3">{comments.length != 0 && "Comments"}</h4>
           {comments.map((e, index) => (
