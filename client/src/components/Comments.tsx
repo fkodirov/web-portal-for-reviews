@@ -13,7 +13,7 @@ const Comments: React.FC<{ reviewId: number }> = ({ reviewId }) => {
   const [comments, setComments] = useState<IComment[]>([]);
   const [usersName, setUsersName] = useState<IUser[]>([]);
   const { store } = useContext(Context);
-  console.log(usersName);
+
   useEffect(() => {
     const source = CommentService.startListening((eventData) => {
       setComments((prevComments) => [...prevComments, eventData]);

@@ -45,7 +45,12 @@ class UserService {
     await tokenService.saveToken(newUser.id, tokens.refreshToken);
     return {
       ...tokens,
-      user: { id: newUser.id, email: newUser.email },
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name,
+        role: newUser.role,
+      },
     };
   }
 
@@ -72,7 +77,12 @@ class UserService {
     await user.save();
     return {
       ...tokens,
-      user: { id: user.id, email: user.email, name: user.name },
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
     };
   }
   async logout(refreshToken) {

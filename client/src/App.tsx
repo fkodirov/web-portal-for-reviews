@@ -14,6 +14,7 @@ import Dashboard from "./components/Dashboard";
 import ErrorPage from "./components/404";
 import Profile from "./components/Profile";
 import SearchResult from "./components/SearchResult";
+import { URL } from "./http";
 
 const App: FC = () => {
   const { store } = useContext(Context);
@@ -31,15 +32,18 @@ const App: FC = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      fetch("http://localhost:5000/auth/google/login/success", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-          "Access-Control-Allow-Credentials": "true",
-        },
-      })
+      fetch(
+        `${URL}/auth/google/login/success`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+            "Access-Control-Allow-Credentials": "true",
+          },
+        }
+      )
         .then((response) => {
           return response.json();
         })

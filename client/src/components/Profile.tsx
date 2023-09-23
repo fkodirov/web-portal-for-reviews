@@ -1,4 +1,4 @@
-import { FC, useState, useContext, useRef, useEffect } from "react";
+import { FC, useState, useContext, useEffect } from "react";
 // import { useTranslation } from "react-i18next";
 
 import { Context } from "../main";
@@ -9,23 +9,35 @@ import Rating from "@mui/material/Rating";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import LikeService from "../services/LikeService";
+import ReviewService from "../services/ReviewService";
 
 const Profile: FC = () => {
   const { store } = useContext(Context);
   const [likes, setLikes] = useState<null | number>(0);
 
   useEffect(() => {
-    getLikeCount();
+    getUserReviews();
   }, []);
 
-  const getLikeCount = async () => {
+  const getLikeCount = async (ids: number[]) => {
     try {
-      const response = await LikeService.fetchLikes(store.user.id);
+      const response = await LikeService.reviewLikes(ids);
       setLikes(response.data.length);
     } catch (e) {
       console.log(e);
     }
   };
+
+  const getUserReviews = async () => {
+    try {
+      const response = await ReviewService.fetchUserReviews(store.user.id);
+      const ids = response.data.map((e) => e.id);
+      getLikeCount(ids);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <div className="container">

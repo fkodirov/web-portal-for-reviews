@@ -18,6 +18,7 @@ router.post("/users-name", userController.getUsersName);
 router.get("/user/:id", authMiddleware, userController.getUser);
 router.post("/review", authMiddleware, ReviewController.addReview);
 router.post("/reviews", ReviewController.getReviews);
+router.post("/reviewsbyids", ReviewController.getReviews);
 router.get(
   "/user-reviews/:id",
   authMiddleware,
@@ -35,6 +36,7 @@ router.put("/image/:id", authMiddleware, ReviewController.deleteImage);
 router.delete("/reviews/:id", authMiddleware, ReviewController.deleteReview);
 router.get("/likes/:id", authMiddleware, LikeController.getUserLikes);
 router.post("/likes", authMiddleware, LikeController.addLike);
+router.post("/likes-review", authMiddleware, LikeController.getLikesReview);
 router.delete("/likes", authMiddleware, LikeController.deleteLike);
 router.get("/ratings/:id", authMiddleware, RatingController.getUserRatings);
 router.post("/ratings", authMiddleware, RatingController.addRating);

@@ -17,6 +17,7 @@ export default class LikeService {
       reviewId,
     });
   }
+
   static deleteLike(
     userId: number,
     reviewId: number
@@ -26,6 +27,12 @@ export default class LikeService {
         userId,
         reviewId,
       },
+    });
+  }
+
+  static reviewLikes(ids: number[]): Promise<AxiosResponse<ILike[]>> {
+    return api.post<ILike[]>(`/likes-review`, {
+      ids,
     });
   }
 }

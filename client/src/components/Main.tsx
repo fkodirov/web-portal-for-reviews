@@ -19,13 +19,6 @@ const Main: React.FC = () => {
     setRatings(ratings);
   }, [store.reviewRating]);
 
-  useEffect(() => {
-    setRatings([]);
-    store.setLikes([]);
-    setTopReviews(topReviews);
-    setLastReviews(lastReviews);
-  }, [store.isAuth, store]);
-
   const getTopReviews = async () => {
     try {
       const response = await ReviewService.fetchReviews("rating", "DESC");

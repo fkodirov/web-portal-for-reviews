@@ -10,6 +10,7 @@ class LikeController {
       next(error);
     }
   }
+
   async addLike(req, res, next) {
     try {
       const { userId, reviewId } = req.body;
@@ -25,6 +26,16 @@ class LikeController {
       const { userId, reviewId } = req.body;
       await likeService.deleteLike(userId, reviewId);
       res.json({ message: "Like deleted." });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getLikesReview(req, res, next) {
+    try {
+      const { ids } = req.body;
+      const likes = await likeService.getLikesReview(ids);
+      res.json(likes);
     } catch (error) {
       next(error);
     }

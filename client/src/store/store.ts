@@ -77,6 +77,8 @@ export default class Store {
       localStorage.removeItem("token");
       this.setAuth(false);
       this.setUser({} as IUser);
+      this.setRatings([]);
+      this.setLikes([]);
     } catch (e) {
       console.log(e);
       throw e;

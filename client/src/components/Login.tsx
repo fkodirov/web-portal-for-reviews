@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import { useTranslation } from "react-i18next";
 import { Facebook, Google } from "react-bootstrap-icons";
 import { Context } from "../main";
-
+import { URL } from "../http";
 interface LoginProps {
   show: boolean;
   onClose: () => void;
@@ -65,9 +65,7 @@ const Login: React.FC<LoginProps> = ({ show, onClose }) => {
           <Google
             size={36}
             color="red"
-            onClick={() =>
-              window.open("http://localhost:5000/auth/google", "_self")
-            }
+            onClick={() => window.open(`${URL}/auth/google`, "_parent")}
           ></Google>
         </div>
       </Modal.Body>
