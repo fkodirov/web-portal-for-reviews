@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AuthResponse } from "../models/response/AuthResponse";
 
-export const URL = `https://web-portal-review.onrender.com`;
+export const URL = `http://localhost:5000`;
 export const API_URL = `${URL}/api`;
 
 const api = axios.create({
