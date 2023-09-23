@@ -61,11 +61,15 @@ const Login: React.FC<LoginProps> = ({ show, onClose }) => {
         </Form>
         <p className="text-body-secondary text-center">or login with</p>
         <div className="d-flex justify-content-center mt-3 gap-3">
-          <Facebook size={36} color="royalblue"></Facebook>
+          <Facebook
+            size={36}
+            color="royalblue"
+            onClick={() => window.open(`${URL}/auth/facebook`, "_self")}
+          ></Facebook>
           <Google
             size={36}
             color="red"
-            onClick={() => window.open(`${URL}/auth/google`, "_parent")}
+            onClick={() => window.open(`${URL}/auth/google`, "_self")}
           ></Google>
         </div>
       </Modal.Body>

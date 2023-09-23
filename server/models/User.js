@@ -15,6 +15,11 @@ User.init(
       allowNull: true,
       unique: true,
     },
+    facebookId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,

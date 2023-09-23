@@ -15,6 +15,7 @@ class UserService {
       where: {
         email: email,
         [Op.or]: [{ googleId: null }, { googleId: "" }],
+        [Op.or]: [{ facebookId: null }, { facebookId: "" }],
       },
     });
 
@@ -59,6 +60,7 @@ class UserService {
       where: {
         email: email,
         [Op.or]: [{ googleId: null }, { googleId: "" }],
+        [Op.or]: [{ facebookId: null }, { facebookId: "" }],
       },
     });
     if (!user) {
@@ -85,6 +87,7 @@ class UserService {
       },
     };
   }
+
   async logout(refreshToken) {
     const token = await tokenService.removeToken(refreshToken);
     return token;
