@@ -33,13 +33,17 @@ router.get(
   })
 );
 
-router.get("/auth/google/logout", function (req, res, next) {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect(process.env.CLIENT_URL);
-  });
+router.get("/auth/google/logout", (req, res) => {
+  req.logout();
+  res.clearCookie("connect.sid");
+  res.redirect(process.env.CLIENT_URL);
 });
+
+// app.get('/auth/google/logout', function(req, res, next){
+//   req.logout(function(err) {
+//     if (err) { return next(err); }
+//     res.redirect(process.env.CLIENT_URL);
+//   });
+// });
 
 module.exports = router;
