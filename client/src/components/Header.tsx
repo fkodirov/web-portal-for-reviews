@@ -35,6 +35,10 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     i18n.changeLanguage(localStorage.getItem("language") || "en");
+    document.body.setAttribute(
+      "data-bs-theme",
+      localStorage.getItem("mode") || "light"
+    );
   }, []);
 
   const handleOutsideClick = (event: MouseEvent) => {
@@ -51,6 +55,12 @@ const Header: React.FC = () => {
     i18n.changeLanguage(lng);
     localStorage.setItem("language", lng);
   };
+
+  const changeMode = (mode: string) => {
+    document.body.setAttribute("data-bs-theme", mode);
+    localStorage.setItem("mode", mode);
+  };
+
   const handleToggleClick = () => {
     setShowToggle(!showToggle);
   };
@@ -212,6 +222,18 @@ const Header: React.FC = () => {
               >
                 <option value="en">En</option>
                 <option value="ru">Ru</option>
+              </select>
+            </div>
+            <div className="lang me-3">
+              <select
+                onChange={(e) => {
+                  changeMode(e.target.value);
+                }}
+                className="form-select"
+                defaultValue={localStorage.getItem("mode") || "light"}
+              >
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
               </select>
             </div>
           </div>
