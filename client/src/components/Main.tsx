@@ -5,8 +5,10 @@ import ReviewService from "../services/ReviewService";
 import { IReview } from "../models/IReview";
 import { Context } from "../main";
 import TagCloudComponent from "./TagCloud";
+import { useTranslation } from "react-i18next";
 
 const Main: React.FC = () => {
+  const { t } = useTranslation();
   const { store } = useContext(Context);
   const [topReviews, setTopReviews] = useState<IReview[]>([]);
   const [lastReviews, setLastReviews] = useState<IReview[]>([]);
@@ -38,7 +40,7 @@ const Main: React.FC = () => {
   if (!lastReviews.length) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
-        Loading...
+        {t("loading")}
       </div>
     );
   }
@@ -47,7 +49,7 @@ const Main: React.FC = () => {
       <div className="row">
         <main className="col-md-9">
           <div className="row gap-3 pt-4 justify-content-center">
-            <h2 className="text-center">Top Reviews</h2>
+            <h2 className="text-center">{t("topreviews")}</h2>
             {topReviews.map((review) => (
               <Card
                 key={review.id}
@@ -56,7 +58,7 @@ const Main: React.FC = () => {
                 rating={ratings.includes(review.id) ? 1 : 0}
               />
             ))}
-            <h2 className="text-center">Last Reviews</h2>
+            <h2 className="text-center">{t("lastreviews")}</h2>
             {lastReviews.map((review) => (
               <Card
                 key={review.id}

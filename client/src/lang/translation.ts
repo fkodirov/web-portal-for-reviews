@@ -11,6 +11,10 @@ export const En = {
   email: "Email address",
   psw: "Password",
   register: "Create account",
+  loading: "Loading...",
+  topreviews: "Top Reviews",
+  lastreviews: "Last Reviews",
+  tags: "Tags",
 };
 export const Ru = {
   home: "Главная",
@@ -25,4 +29,8 @@ export const Ru = {
   email: "Электронная почта",
   psw: "Пароль",
   register: "Зарегистрироваться",
+  loading: "Загрузка...",
+  topreviews: "Лучшие отзывы",
+  lastreviews: "Последние отзывы",
+  tags: "Теги",
 };

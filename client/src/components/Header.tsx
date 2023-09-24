@@ -33,6 +33,10 @@ const Header: React.FC = () => {
     };
   }, [showToggle]);
 
+  useEffect(() => {
+    i18n.changeLanguage(localStorage.getItem("language") || "en");
+  }, []);
+
   const handleOutsideClick = (event: MouseEvent) => {
     if (
       dropdownRef.current &&
@@ -45,6 +49,7 @@ const Header: React.FC = () => {
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    localStorage.setItem("language", lng);
   };
   const handleToggleClick = () => {
     setShowToggle(!showToggle);
@@ -180,7 +185,7 @@ const Header: React.FC = () => {
                 </ul>
               </div>
             ) : (
-              <div className="col-md-3 text-end me-2">
+              <div className="col-md-4 text-end me-2">
                 <button
                   type="button"
                   className="btn btn-outline-primary me-2"
@@ -203,7 +208,7 @@ const Header: React.FC = () => {
                   changeLanguage(e.target.value);
                 }}
                 className="form-select"
-                defaultValue="en"
+                defaultValue={localStorage.getItem("language") || "en"}
               >
                 <option value="en">En</option>
                 <option value="ru">Ru</option>

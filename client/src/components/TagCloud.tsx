@@ -2,12 +2,14 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { TagCloud } from "react-tagcloud";
 import ReviewService from "../services/ReviewService";
+import { useTranslation } from "react-i18next";
 interface Itag {
   value: string;
   count: number;
 }
 
 const TagCloudComponent: React.FC = () => {
+  const { t } = useTranslation();
   const [availableTags, setAvailableTags] = useState<Itag[]>([]);
   useEffect(() => {
     getTags();
@@ -29,7 +31,7 @@ const TagCloudComponent: React.FC = () => {
   };
   return (
     <>
-      <h4 className="pt-4">Tags</h4>
+      <h4 className="pt-4">{t("tags")}</h4>
       <TagCloud
         minSize={12}
         maxSize={35}
