@@ -11,6 +11,7 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL:
         "https://web-portal-review.onrender.com/auth/google/callback",
+      passReqToCallback: true,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -39,6 +40,7 @@ passport.use(
       callbackURL:
         "https://web-portal-review.onrender.com/auth/facebook/callback",
       profileFields: ["id", "displayName", "emails"],
+      passReqToCallback: true,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {

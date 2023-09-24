@@ -170,7 +170,7 @@ const Review: React.FC = () => {
       }
     }
   };
-  if (!data) {
+  if (!Object.keys(data).length) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
         Loading...
