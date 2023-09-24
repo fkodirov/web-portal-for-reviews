@@ -35,7 +35,13 @@ const Main: React.FC = () => {
       console.log(e);
     }
   };
-
+  if (!lastReviews.length) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        Loading...
+      </div>
+    );
+  }
   return (
     <div className="container-fluid">
       <div className="row">

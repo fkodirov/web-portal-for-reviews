@@ -37,6 +37,7 @@ const Review: React.FC = () => {
     const foundItem = store.reviewRating.find((e) => e.reviewId === id);
     if (foundItem) setRating(foundItem.rating);
   }, [store.reviewRating]);
+
   const getReview = async () => {
     if (currentPath.includes("preview")) setIsPreview(true);
 
@@ -169,7 +170,13 @@ const Review: React.FC = () => {
       }
     }
   };
-
+  if (!data) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        Loading...
+      </div>
+    );
+  }
   return (
     <>
       <div className="container mt-4">
