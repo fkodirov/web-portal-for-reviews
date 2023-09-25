@@ -90,14 +90,8 @@ const App: FC = () => {
         <Route path={`/user/:id/profile`} element={<Profile />} />
         <Route path={`/user/:id/reviews`} element={<UserReviews />} />
         <Route path={`/user/:id/new-review`} element={<NewReview />} />
-        <Route
-          path={`/user/:id/reviews/:reviewId/edit`}
-          element={<EditReview />}
-        />
-        <Route
-          path={`/user/:id/reviews/:reviewId/preview`}
-          element={<Review />}
-        />
+        <Route path={`/user/:id/reviews/:id/edit`} element={<EditReview />} />
+        <Route path={`/user/:id/reviews/:id/preview`} element={<Review />} />
         <Route path={`/reviews/:id/`} element={<Review />} />
         <Route path={`/search`} element={<SearchResult />} />
         <Route path={`/404`} element={<ErrorPage />} />

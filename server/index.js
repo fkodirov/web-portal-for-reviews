@@ -11,6 +11,8 @@ const MySQLStore = require("express-mysql-session")(session);
 const passport = require("passport");
 require("./passport");
 const app = express();
+app.set("trust proxy", 1);
+
 app.use(express.json());
 app.use(cookieParse());
 app.use(
@@ -36,6 +38,7 @@ app.use(
     cookie: {
       secure: true,
       sameSite: "None",
+      maxAge: 3600000,
     },
   })
 );

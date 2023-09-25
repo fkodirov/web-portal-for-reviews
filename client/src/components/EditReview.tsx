@@ -49,11 +49,7 @@ const EditReview = () => {
       const response = await ReviewService.fetchReview(id);
       const data = response.data;
       console.log(data.userId);
-      if (
-        response.data === null ||
-        (store.user.role !== "admin" && store.user.id != data.userId) ||
-        userId !== store.user.id
-      )
+      if (store.user.role !== "admin" && store.user.id != data.userId)
         navigate("/404");
       setTitle(data.title);
       setNameofart(data.nameofart);
