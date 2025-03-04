@@ -1,7 +1,5 @@
 # Wep Portal For Reviews
 
-![image](https://github.com/fkodirov/web-portal-for-reviews/assets/111504283/725a1c90-8ad0-4345-8edb-03d115ef592b)
-
 Сайт обзоров, который позволяет пользователям создавать и читать обзоры на различные темы, такие как фильмы, книги и игры. 
 
 Задание выполнено в рамках программы стажировки компании Itransition "Промышленная разработка ПО".
@@ -33,8 +31,6 @@
 - Социальная аутентификация: Facebook, Google
 - Хостинг и хранение данных: Netlify и Firebase
 
-## Deployment
-Проект доступен по адресу: https://web-portal-review.netlify.app/
 
 
 ## Authors
